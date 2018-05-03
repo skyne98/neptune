@@ -1,0 +1,59 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "/media/skyne/ExternalDrive/projects/Neptune/Neptune.csproj",
+    "projectName": "Neptune",
+    "projectPath": "/media/skyne/ExternalDrive/projects/Neptune/Neptune.csproj",
+    "outputPath": "/media/skyne/ExternalDrive/projects/Neptune/obj/",
+    "projectStyle": "PackageReference",
+    "fallbackFolders": [
+      "/home/skyne/dotnet/sdk/NuGetFallbackFolder"
+    ],
+    "originalTargetFrameworks": [
+      "netcoreapp2.1"
+    ],
+    "frameworks": {
+      "netcoreapp2.1": {
+        "projectReferences": {}
+      }
+    },
+    "warningProperties": {
+      "warnAsError": [
+        "NU1605"
+      ]
+    }
+  },
+  "frameworks": {
+    "netcoreapp2.1": {
+      "dependencies": {
+        "CoreCompat.System.Drawing.v2": {
+          "target": "Package",
+          "version": "[5.2.0-preview1-r131, )"
+        },
+        "Microsoft.NETCore.App": {
+          "suppressParent": "All",
+          "target": "Package",
+          "version": "[2.1.0-preview1-26216-03, )",
+          "autoReferenced": true
+        },
+        "SixLabors.ImageSharp": {
+          "target": "Package",
+          "version": "[1.0.0-beta0003, )"
+        },
+        "Veldrid": {
+          "target": "Package",
+          "version": "[4.1.4, )"
+        },
+        "Veldrid.StartupUtilities": {
+          "target": "Package",
+          "version": "[4.1.4, )"
+        }
+      },
+      "imports": [
+        "net461"
+      ],
+      "assetTargetFallback": true,
+      "warn": true
+    }
+  }
+}

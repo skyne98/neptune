@@ -1,7 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="151928ba-fab1-4822-bd80-0e3a6e368dcf" name="Default" comment="" />
+    <list default="true" id="151928ba-fab1-4822-bd80-0e3a6e368dcf" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Neptune/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Assets/doge.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Engine/IGame.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Engine/IRenderable.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Engine/IRenderer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Engine/ISpriteBatch.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Engine/RenderInfo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Engine/Sample/SimpleBatch.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Engine/Sample/SimpleGame.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Engine/Sample/SimpleRenderer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Engine/Sample/StupidRenderable.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Engine/UpdateInfo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Engine/VertexInfo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/ImageTexture.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/MipmapHelper.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Neptune.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Program.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Shaders/Fragment.450.glsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Shaders/Fragment.glsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Shaders/Fragment.hlsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Shaders/Fragment.spv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Shaders/Vertex.450.glsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Shaders/Vertex.glsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Shaders/Vertex.hlsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Shaders/Vertex.spv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/cross/spirv-cross" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslang-default-resource-limits.dir/CXX.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslang-default-resource-limits.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslang-default-resource-limits.dir/ResourceLimits.cpp.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslang-default-resource-limits.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslang-default-resource-limits.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslang-default-resource-limits.dir/cmake_clean_target.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslang-default-resource-limits.dir/depend.internal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslang-default-resource-limits.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslang-default-resource-limits.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslang-default-resource-limits.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslang-default-resource-limits.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslangValidator.dir/CXX.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslangValidator.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslangValidator.dir/StandAlone.cpp.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslangValidator.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslangValidator.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslangValidator.dir/depend.internal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslangValidator.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslangValidator.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslangValidator.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/glslangValidator.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/progress.marks" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/spirv-remap.dir/CXX.includecache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/spirv-remap.dir/DependInfo.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/spirv-remap.dir/build.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/spirv-remap.dir/cmake_clean.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/spirv-remap.dir/depend.internal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/spirv-remap.dir/depend.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/spirv-remap.dir/flags.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/spirv-remap.dir/link.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/spirv-remap.dir/progress.make" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CMakeFiles/spirv-remap.dir/spirv-remap.cpp.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/CTestTestfile.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/cmake_install.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/frag.spv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/glslangValidator" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/libglslang-default-resource-limits.a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/glslang/spirv-remap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/Utilities/opt/spirv-opt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/bin/Debug/netcoreapp2.0/Assets/doge.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/bin/Debug/netcoreapp2.0/Neptune.deps.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/bin/Debug/netcoreapp2.0/Neptune.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/bin/Debug/netcoreapp2.0/Neptune.pdb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/bin/Debug/netcoreapp2.0/Neptune.runtimeconfig.dev.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/bin/Debug/netcoreapp2.0/Neptune.runtimeconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/bin/Debug/netcoreapp2.0/Shaders/Fragment.glsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/bin/Debug/netcoreapp2.0/Shaders/Fragment.spv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/bin/Debug/netcoreapp2.0/Shaders/Vertex.glsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/bin/Debug/netcoreapp2.0/Shaders/Vertex.spv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/build-shaders.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/obj/Debug/netcoreapp2.0/Neptune.AssemblyInfo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/obj/Debug/netcoreapp2.0/Neptune.AssemblyInfoInputs.cache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/obj/Debug/netcoreapp2.0/Neptune.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/obj/Debug/netcoreapp2.0/Neptune.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/obj/Debug/netcoreapp2.0/Neptune.csprojAssemblyReference.cache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/obj/Debug/netcoreapp2.0/Neptune.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/obj/Debug/netcoreapp2.0/Neptune.pdb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/obj/Neptune.csproj.nuget.cache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/obj/Neptune.csproj.nuget.g.props" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/obj/Neptune.csproj.nuget.g.targets" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/obj/project.assets.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neptune/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Neptune/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Neptune/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Neptune/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Neptune/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/doge.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImageTexture.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MipmapHelper.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neptune.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neptune.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Neptune.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neptune.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Neptune.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shaders/Fragment.glsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shaders/Vertex.glsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/netcoreapp2.1/Assets/doge.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/netcoreapp2.1/Neptune.deps.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/netcoreapp2.1/Neptune.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/netcoreapp2.1/Neptune.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/netcoreapp2.1/Neptune.runtimeconfig.dev.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/netcoreapp2.1/Neptune.runtimeconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/netcoreapp2.1/Shaders/Fragment.glsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/netcoreapp2.1/Shaders/Vertex.glsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/netcoreapp2.0/Neptune.AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/netcoreapp2.0/Neptune.AssemblyInfoInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/netcoreapp2.0/Neptune.csprojResolveAssemblyReference.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/netcoreapp2.1/Neptune.AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/netcoreapp2.1/Neptune.AssemblyInfoInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/netcoreapp2.1/Neptune.csproj.CoreCompileInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/netcoreapp2.1/Neptune.csproj.FileListAbsolute.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/netcoreapp2.1/Neptune.csprojResolveAssemblyReference.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/netcoreapp2.1/Neptune.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/netcoreapp2.1/Neptune.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Neptune.csproj.nuget.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Neptune.csproj.nuget.g.props" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Neptune.csproj.nuget.g.targets" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.assets.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.packagespec.json" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,119 +136,108 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Program.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program.cs">
+      <file leaf-file-name="build-shaders.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Neptune/build-shaders.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1471">
-              <caret line="61" column="30" lean-forward="true" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="30" />
-              <folding>
-                <marker date="1524929375006" expanded="true" signature="6:176" ph="..." />
-                <marker date="1524929375006" expanded="true" signature="195:7619" ph="{...}" />
-                <marker date="1524929375006" expanded="true" signature="215:7219" ph="{...}" />
-                <marker date="1524929375006" expanded="true" signature="638:1334" ph="{...}" />
-                <marker date="1524929375006" expanded="true" signature="724:909" ph="{...}" />
-                <marker date="1524929375006" expanded="true" signature="1202:1291" ph="{...}" />
-                <marker date="1524929375006" expanded="true" signature="1370:2207" ph="{...}" />
-                <marker date="1524929375006" expanded="true" signature="2263:2540" ph="{...}" />
-                <marker date="1524929375006" expanded="true" signature="2757:3105" ph="{...}" />
-                <marker date="1524929375006" expanded="true" signature="5111:5157" ph="{...}" />
-                <marker date="1524929375006" expanded="true" signature="6073:6223" ph="{...}" />
-                <marker date="1524929375006" expanded="true" signature="6285:7209" ph="{...}" />
-                <marker date="1524929375006" expanded="true" signature="6381:6825" ph="{...}" />
-                <marker date="1524929375006" expanded="true" signature="7251:7617" ph="{...}" />
-                <marker date="1524929375006" expanded="true" signature="7487:7567" ph="{...}" />
-              </folding>
+            <state relative-caret-position="400">
+              <caret line="20" column="74" selection-start-line="20" selection-start-column="74" selection-end-line="20" selection-end-column="74" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ImageTexture.cs" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ImageTexture.cs">
+      <file leaf-file-name="Vertex.hlsl" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Neptune/Shaders/Vertex.hlsl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="158" column="40" lean-forward="true" selection-start-line="158" selection-start-column="40" selection-end-line="158" selection-end-column="40" />
-              <folding>
-                <marker date="1524929222066" expanded="true" signature="6:349" ph="..." />
-                <marker date="1524929222066" expanded="true" signature="368:6364" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="400:6362" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="415:670" ph="/// An array of images, each a single element in the mipmap chain. ... " />
-                <marker date="1524929222066" expanded="true" signature="727:820" ph="/// The width of the largest image in the chain. ... " />
-                <marker date="1524929222066" expanded="true" signature="882:976" ph="/// The height of the largest image in the chain. ... " />
-                <marker date="1524929222066" expanded="true" signature="1040:1120" ph="/// The pixel format of all images. ... " />
-                <marker date="1524929222066" expanded="true" signature="1198:1280" ph="/// The size of each pixel, in bytes. ... " />
-                <marker date="1524929222066" expanded="true" signature="1348:1487" ph="/// The number of levels in the mipmap chain. This is equal to the length of the Images array. ... " />
-                <marker date="1524929222066" expanded="true" signature="1778:2000" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="1812:1889" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="1906:1990" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="2095:2172" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="2272:4197" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="2798:4027" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="2953:4013" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="3162:3315" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="3340:3741" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="3426:3719" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="4296:5227" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="4544:5192" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="4699:5178" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="5412:6356" ph="{...}" />
-                <marker date="1524929222066" expanded="true" signature="5804:6268" ph="{...}" />
-              </folding>
-            </state>
+            <state relative-caret-position="-176" />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MipmapHelper.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MipmapHelper.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="9" column="43" selection-start-line="9" selection-start-column="43" selection-end-line="9" selection-end-column="43" />
-              <folding>
-                <marker date="1524929301960" expanded="true" signature="32:874" ph="{...}" />
-                <marker date="1524929301960" expanded="true" signature="64:872" ph="{...}" />
-                <marker date="1524929301960" expanded="true" signature="79:417" ph="/// Computes the number of mipmap levels in a texture. ... " />
-                <marker date="1524929301960" expanded="true" signature="483:581" ph="{...}" />
-                <marker date="1524929301960" expanded="true" signature="662:866" ph="{...}" />
-                <marker date="1524929301960" expanded="true" signature="764:818" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
+      <file leaf-file-name="Fragment.450.glsl" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Neptune/Shaders/Fragment.450.glsl">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file leaf-file-name="Fragment.glsl" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Shaders/Fragment.glsl">
+      <file leaf-file-name="Vertex.450.glsl" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Neptune/Shaders/Vertex.450.glsl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+            <state relative-caret-position="320">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Vertex.glsl" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Shaders/Vertex.glsl">
+        <entry file="file://$PROJECT_DIR$/Neptune/Shaders/Vertex.glsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="12" column="58" selection-start-line="12" selection-start-column="58" selection-end-line="12" selection-end-column="58" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Program.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Neptune/Program.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="520">
+              <caret line="26" column="99" selection-start-line="26" selection-start-column="99" selection-end-line="26" selection-end-column="99" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Fragment.glsl" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Neptune/Shaders/Fragment.glsl">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="200">
-              <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+              <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>nu</find>
+      <find>SetGra</find>
+      <find>_currentGraphicsResourcesets =</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/MipmapHelper.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/ImageTexture.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4D5BEF89-515C-4801-A234-A9F89F70C2EE/72/73102981/CommandList.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Neptune/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4D5BEF89-515C-4801-A234-A9F89F70C2EE/75/4b82e38a/VkCommandList.cs" root0="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Neptune.csproj" />
-        <option value="$PROJECT_DIR$/Shaders/Vertex.glsl" />
         <option value="$PROJECT_DIR$/ProcessedTexture.cs" />
         <option value="$PROJECT_DIR$/ImageTexture.cs" />
         <option value="$PROJECT_DIR$/MipmapHelper.cs" />
-        <option value="$PROJECT_DIR$/Program.cs" />
+        <option value="$PROJECT_DIR$/Engine/UpdateInfo.cs" />
+        <option value="$PROJECT_DIR$/Engine/RenderInfo.cs" />
+        <option value="$PROJECT_DIR$/Engine/SimpleGame.cs" />
+        <option value="$PROJECT_DIR$/Engine/Renderer.cs" />
+        <option value="$PROJECT_DIR$/Engine/SimpleRenderer.cs" />
+        <option value="$PROJECT_DIR$/Engine/VertexInfo.cs" />
+        <option value="$PROJECT_DIR$/Engine/ISpriteBatch.cs" />
+        <option value="$PROJECT_DIR$/Engine/IRenderable.cs" />
+        <option value="$PROJECT_DIR$/Engine/Sample/StupidRenderable.cs" />
+        <option value="$PROJECT_DIR$/Engine/Sample/SimpleBatch.cs" />
+        <option value="$PROJECT_DIR$/Engine/IRenderer.cs" />
+        <option value="$PROJECT_DIR$/Engine/Sample/SimpleGame.cs" />
+        <option value="$PROJECT_DIR$/Engine/IGame.cs" />
         <option value="$PROJECT_DIR$/Shaders/Fragment.glsl" />
+        <option value="$PROJECT_DIR$/Shaders/Vertex.glsl" />
+        <option value="$PROJECT_DIR$/Engine/Sample/SimpleRenderer.cs" />
+        <option value="$PROJECT_DIR$/Program.cs" />
+        <option value="$PROJECT_DIR$/Neptune/Shaders/Fragment.glsl" />
+        <option value="$PROJECT_DIR$/Neptune/Program.cs" />
+        <option value="$PROJECT_DIR$/Neptune/build-shaders.sh" />
+        <option value="$PROJECT_DIR$/Neptune/Shaders/Vertex.glsl" />
       </list>
     </option>
   </component>
@@ -135,7 +249,7 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="4">
     <option name="x" value="1920" />
-    <option name="width" value="1661" />
+    <option name="width" value="1270" />
     <option name="height" value="1440" />
   </component>
   <component name="ProjectView">
@@ -159,13 +273,7 @@
               <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
               <item name="Neptune (1 project)" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Neptune" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Assets" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Neptune (1 project)" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Neptune" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Shaders" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Utilities" type="977d5f41:SolutionExplorerNodeRider" />
             </path>
           </expand>
           <select />
@@ -179,6 +287,7 @@
   <component name="PropertiesComponent">
     <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Neptune/Neptune.csproj" />
     <property name="settings.editor.selected.configurable" value="SolutionBuilderGeneralOptionsPageId" />
   </component>
   <component name="RunDashboard">
@@ -193,7 +302,16 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Bash.build-shaders.sh">
+    <configuration name="build-shaders.sh" type="BashConfigurationType" factoryName="Bash" temporary="true">
+      <module name="riderModule" />
+      <option name="INTERPRETER_OPTIONS" value="bash" />
+      <option name="INTERPRETER_PATH" value="/usr/bin/env" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Neptune" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Neptune/build-shaders.sh" />
+      <option name="PARAMETERS" value="" />
+    </configuration>
     <configuration name="Default" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/bin/Debug/netcoreapp2.1/Neptune.dll" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -213,6 +331,31 @@
       <option name="PROJECT_TFM" value=".NETCoreApp,Version=v2.1" />
       <browser url="http://localhost:5000" />
     </configuration>
+    <configuration name="Neptune" type="DotNetProject" factoryName=".NET Project" temporary="true">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Neptune/bin/Debug/netcoreapp2.0/Neptune.dll" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Neptune" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Neptune/Neptune.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v2.0" />
+    </configuration>
+    <list>
+      <item itemvalue=".NET Project.Default" />
+      <item itemvalue=".NET Project.Neptune" />
+      <item itemvalue="Bash.build-shaders.sh" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Bash.build-shaders.sh" />
+        <item itemvalue=".NET Project.Neptune" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -226,11 +369,25 @@
       <updated>1524916997574</updated>
       <workItem from="1524917000099" duration="1492000" />
       <workItem from="1524920311511" duration="10595000" />
+      <workItem from="1525382673246" duration="13258000" />
+      <workItem from="1525426951905" duration="2822000" />
+      <workItem from="1525540129626" duration="5724000" />
+      <workItem from="1525546360892" duration="898000" />
+      <workItem from="1525853266483" duration="949000" />
+      <workItem from="1525867618132" duration="544000" />
+      <workItem from="1525868518960" duration="2310000" />
+      <workItem from="1525885400585" duration="1121000" />
+      <workItem from="1525886544221" duration="1531000" />
+      <workItem from="1525888335001" duration="817000" />
+      <workItem from="1525889651159" duration="278000" />
+      <workItem from="1525891623035" duration="1836000" />
+      <workItem from="1525894028118" duration="806000" />
+      <workItem from="1525896058796" duration="1841000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12087000" />
+    <option name="totallyTimeSpent" value="46822000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -242,30 +399,31 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="0" width="1661" height="1440" extended-state="4" />
+    <frame x="1920" y="0" width="1270" height="1440" extended-state="4" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="Errors In Solution" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Unit Tests" order="7" />
-      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32950193" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info anchor="bottom" id="NuGet" order="7" weight="0.32950193" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19209388" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Build" weight="0.32950193" />
-      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="14" side_tool="true" />
+      <window_info anchor="bottom" id="Unit Tests" order="10" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="12" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.33282208" />
+      <window_info anchor="bottom" id="Terminal" order="11" />
+      <window_info anchor="bottom" id="NuGet" order="7" weight="0.327454" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22149837" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="4" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3995399" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Change Signature" order="15" side_tool="true" />
+      <window_info anchor="bottom" id="Build" order="13" weight="0.32898772" />
       <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
@@ -276,139 +434,143 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4D5BEF89-515C-4801-A234-A9F89F70C2EE/75/4b82e38a/VkCommandList.cs</url>
+          <line>493</line>
+          <properties documentPath="$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4D5BEF89-515C-4801-A234-A9F89F70C2EE/75/4b82e38a/VkCommandList.cs" initialLine="493">
+            <startOffsets>
+              <startOffset value="21044" />
+            </startOffsets>
+            <endOffsets>
+              <endOffset value="21100" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4D5BEF89-515C-4801-A234-A9F89F70C2EE/75/4b82e38a/VkCommandList.cs</url>
+          <line>250</line>
+          <properties documentPath="$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4D5BEF89-515C-4801-A234-A9F89F70C2EE/75/4b82e38a/VkCommandList.cs" initialLine="250">
+            <startOffsets>
+              <startOffset value="10113" />
+            </startOffsets>
+            <endOffsets>
+              <endOffset value="10143" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="18" />
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="DotNetProject">
+        <watch expression="this._currentGraphicsResourceSets" />
+      </configuration>
+    </watches-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Program.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2320">
-          <caret line="116" column="9" lean-forward="true" selection-start-line="116" selection-start-column="9" selection-end-line="116" selection-end-column="9" />
-          <folding>
-            <marker date="1524929375006" expanded="true" signature="6:176" ph="..." />
-            <marker date="1524929375006" expanded="true" signature="195:7619" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="215:7219" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="638:1334" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="724:909" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="1202:1291" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="1370:2207" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="2263:2540" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="2757:3105" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="5111:5157" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="6073:6223" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="6285:7209" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="6381:6825" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="7251:7617" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="7487:7567" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Shaders/Vertex.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="39" lean-forward="true" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Program.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/Sample/SimpleRenderer.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/Sample/SimpleGame.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/IGame.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/IRenderer.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/Sample/SimpleBatch.cs" />
+    <entry file="file://$PROJECT_DIR$/Shaders/Vertex.glsl" />
+    <entry file="file://$PROJECT_DIR$/Engine/Sample/StupidRenderable.cs" />
+    <entry file="file://$PROJECT_DIR$/Program.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/Sample/SimpleRenderer.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/Sample/SimpleGame.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/Sample/SimpleBatch.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/Sample/StupidRenderable.cs" />
+    <entry file="file://$PROJECT_DIR$/Shaders/Vertex.glsl" />
+    <entry file="file://$PROJECT_DIR$/Program.cs" />
+    <entry file="file://$PROJECT_DIR$/MipmapHelper.cs" />
+    <entry file="file://$PROJECT_DIR$/Shaders/Fragment.glsl" />
+    <entry file="file://$PROJECT_DIR$/Shaders/Vertex.glsl" />
+    <entry file="file://$PROJECT_DIR$/ImageTexture.cs" />
+    <entry file="file://$PROJECT_DIR$/Program.cs" />
+    <entry file="file://$PROJECT_DIR$/Shaders/Vertex.glsl" />
     <entry file="file://$PROJECT_DIR$/Shaders/Simple2D.cs" />
-    <entry file="file://$PROJECT_DIR$/Neptune.csproj">
+    <entry file="file://$PROJECT_DIR$/Neptune.csproj" />
+    <entry file="file://$PROJECT_DIR$/ProcessedTexture.cs" />
+    <entry file="file://$PROJECT_DIR$/MipmapHelper.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/UpdateInfo.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/Renderer.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/IRenderable.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/ISpriteBatch.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/VertexInfo.cs" />
+    <entry file="file://$PROJECT_DIR$/ImageTexture.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/Sample/StupidRenderable.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/Sample/SimpleBatch.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/IRenderer.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/IGame.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/Sample/SimpleGame.cs" />
+    <entry file="file://$PROJECT_DIR$/Engine/RenderInfo.cs" />
+    <entry file="file://$PROJECT_DIR$/Shaders/Fragment.glsl" />
+    <entry file="file://$PROJECT_DIR$/Shaders/Vertex.glsl" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4D5BEF89-515C-4801-A234-A9F89F70C2EE/75/4b82e38a/VkCommandList.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="14" column="10" lean-forward="true" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
+        <state relative-caret-position="426">
+          <caret line="63" column="10" selection-start-line="63" selection-start-column="10" selection-end-line="63" selection-end-column="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/doge.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ProcessedTexture.cs">
+    <entry file="file://$PROJECT_DIR$/Engine/Sample/SimpleRenderer.cs" />
+    <entry file="file://$PROJECT_DIR$/Program.cs" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4D5BEF89-515C-4801-A234-A9F89F70C2EE/72/73102981/CommandList.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="82" column="53" lean-forward="true" selection-start-line="82" selection-start-column="53" selection-end-line="82" selection-end-column="53" />
+        <state>
+          <caret line="27" column="51" selection-start-line="27" selection-start-column="51" selection-end-line="27" selection-end-column="51" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MipmapHelper.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="43" selection-start-line="9" selection-start-column="43" selection-end-line="9" selection-end-column="43" />
-          <folding>
-            <marker date="1524929301960" expanded="true" signature="32:874" ph="{...}" />
-            <marker date="1524929301960" expanded="true" signature="64:872" ph="{...}" />
-            <marker date="1524929301960" expanded="true" signature="79:417" ph="/// Computes the number of mipmap levels in a texture. ... " />
-            <marker date="1524929301960" expanded="true" signature="483:581" ph="{...}" />
-            <marker date="1524929301960" expanded="true" signature="662:866" ph="{...}" />
-            <marker date="1524929301960" expanded="true" signature="764:818" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Shaders/Fragment.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Shaders/Vertex.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1471">
-          <caret line="61" column="30" lean-forward="true" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="30" />
-          <folding>
-            <marker date="1524929375006" expanded="true" signature="6:176" ph="..." />
-            <marker date="1524929375006" expanded="true" signature="195:7619" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="215:7219" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="638:1334" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="724:909" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="1202:1291" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="1370:2207" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="2263:2540" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="2757:3105" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="5111:5157" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="6073:6223" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="6285:7209" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="6381:6825" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="7251:7617" ph="{...}" />
-            <marker date="1524929375006" expanded="true" signature="7487:7567" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ImageTexture.cs">
+    <entry file="file://$PROJECT_DIR$/Neptune/Program.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="520">
-          <caret line="158" column="40" lean-forward="true" selection-start-line="158" selection-start-column="40" selection-end-line="158" selection-end-column="40" />
-          <folding>
-            <marker date="1524929222066" expanded="true" signature="6:349" ph="..." />
-            <marker date="1524929222066" expanded="true" signature="368:6364" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="400:6362" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="415:670" ph="/// An array of images, each a single element in the mipmap chain. ... " />
-            <marker date="1524929222066" expanded="true" signature="727:820" ph="/// The width of the largest image in the chain. ... " />
-            <marker date="1524929222066" expanded="true" signature="882:976" ph="/// The height of the largest image in the chain. ... " />
-            <marker date="1524929222066" expanded="true" signature="1040:1120" ph="/// The pixel format of all images. ... " />
-            <marker date="1524929222066" expanded="true" signature="1198:1280" ph="/// The size of each pixel, in bytes. ... " />
-            <marker date="1524929222066" expanded="true" signature="1348:1487" ph="/// The number of levels in the mipmap chain. This is equal to the length of the Images array. ... " />
-            <marker date="1524929222066" expanded="true" signature="1778:2000" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="1812:1889" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="1906:1990" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="2095:2172" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="2272:4197" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="2798:4027" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="2953:4013" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="3162:3315" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="3340:3741" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="3426:3719" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="4296:5227" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="4544:5192" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="4699:5178" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="5412:6356" ph="{...}" />
-            <marker date="1524929222066" expanded="true" signature="5804:6268" ph="{...}" />
-          </folding>
+          <caret line="26" column="99" selection-start-line="26" selection-start-column="99" selection-end-line="26" selection-end-column="99" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Neptune/Shaders/Fragment.glsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Neptune/Shaders/Fragment.hlsl">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Neptune/Shaders/Fragment.450.glsl">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Neptune/build-shaders.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="20" column="74" selection-start-line="20" selection-start-column="74" selection-end-line="20" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Neptune/Shaders/Vertex.hlsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-176" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Neptune/Shaders/Vertex.glsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="12" column="58" selection-start-line="12" selection-start-column="58" selection-end-line="12" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Neptune/Shaders/Vertex.450.glsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
     </entry>

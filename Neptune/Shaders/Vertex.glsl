@@ -1,12 +1,12 @@
 #version 310 es
 precision mediump float;
 
-layout(location = 0) in vec2 vin_position;
-layout(location = 1) in vec2 vin_texcoord;
-layout(location = 2) in vec4 vin_color;
+in vec2 vin_position;
+in vec2 vin_texcoord;
+in vec4 vin_color;
 
-layout(location = 0) out vec2 fin_texcoord;
-layout(location = 1) out vec4 fin_color;
+out vec2 fin_texcoord;
+out vec4 fin_color;
 
 void main()
 {

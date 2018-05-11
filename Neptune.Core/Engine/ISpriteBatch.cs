@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Neptune.Engine
+namespace Neptune.Core.Engine
 {
     public interface ISpriteBatch
     {

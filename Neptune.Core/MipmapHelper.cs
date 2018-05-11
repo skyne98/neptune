@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Neptune
+namespace Neptune.Core
 {
     public class MipmapHelper
     {

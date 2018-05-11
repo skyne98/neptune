@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Numerics;
 using System.Threading;
-using Neptune.Engine.Sample;
+using Neptune.Core.Engine.Sample;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
 
-namespace Neptune
+namespace Neptune.Core
 {
     class Program
     {

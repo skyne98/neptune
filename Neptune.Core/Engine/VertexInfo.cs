@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using Veldrid;
 
-namespace Neptune.Engine
+namespace Neptune.Core.Engine
 {
     public struct VertexInfo
     {

@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptune", "Neptune\Neptune.csproj", "{D100822F-FE70-4F04-B449-72F3779F2023}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptune.Build", "Neptune.Build\Neptune.Build.csproj", "{37F9417C-46C5-49CC-AD8C-18FF88C60953}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptune.Core", "Neptune.Core\Neptune.Core.csproj", "{AE763F80-333C-4F73-B2C4-11647ED2A2A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,13 +12,13 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C0CD1F65-B663-4FE4-B863-51ABDAAA9BE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C0CD1F65-B663-4FE4-B863-51ABDAAA9BE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D100822F-FE70-4F04-B449-72F3779F2023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D100822F-FE70-4F04-B449-72F3779F2023}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D100822F-FE70-4F04-B449-72F3779F2023}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D100822F-FE70-4F04-B449-72F3779F2023}.Release|Any CPU.Build.0 = Release|Any CPU
 		{37F9417C-46C5-49CC-AD8C-18FF88C60953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37F9417C-46C5-49CC-AD8C-18FF88C60953}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37F9417C-46C5-49CC-AD8C-18FF88C60953}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37F9417C-46C5-49CC-AD8C-18FF88C60953}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE763F80-333C-4F73-B2C4-11647ED2A2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE763F80-333C-4F73-B2C4-11647ED2A2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE763F80-333C-4F73-B2C4-11647ED2A2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE763F80-333C-4F73-B2C4-11647ED2A2A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

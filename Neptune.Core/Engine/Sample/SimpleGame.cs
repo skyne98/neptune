@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Numerics;
 using Veldrid;
 
-namespace Neptune.Engine.Sample
+namespace Neptune.Core.Engine.Sample
 {
     public class SimpleGame: IGame
     {
@@ -22,8 +21,20 @@ namespace Neptune.Engine.Sample
             _renderer = new SimpleRenderer(_graphicsDevice);
             _renderables = new List<IRenderable>();
             
-            _renderables.Add(new StupidRenderable(_graphicsDevice, new Vector2(50, 50), Vector2.One));
-            _renderables.Add(new StupidRenderable(_graphicsDevice, new Vector2(700, 700), Vector2.One / 2));
+            _renderables.Add(new StupidRenderable(_graphicsDevice, new Vector2(500, 500), Vector2.One / 2));
+            _renderables.Add(new StupidRenderable(_graphicsDevice, new Vector2(500, 500), Vector2.One / 2)
+            {
+                Rotation = 3.14159f
+            });
+            
+            _renderables.Add(new StupidRenderable(_graphicsDevice, new Vector2(200, 600), Vector2.One / 3)
+            {
+                Origin = Vector2.One / 2
+            });
+            _renderables.Add(new StupidRenderable(_graphicsDevice, new Vector2(200, 800), Vector2.One / 3)
+            {
+                Origin = Vector2.One / 2
+            });
             
             _random = new Random();
         }
@@ -32,10 +43,7 @@ namespace Neptune.Engine.Sample
         {
             foreach (StupidRenderable renderable in _renderables)
             {
-                var value = (float) _random.Next(0, 100) / 100f;
-                
-                //renderable.Scale = new Vector2(value, value); 
-                renderable.Rotation += 0.005f * value;
+                renderable.Rotation += 0.005f;
             }
         }
 

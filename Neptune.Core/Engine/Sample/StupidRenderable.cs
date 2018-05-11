@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Numerics;
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Single;
 using Veldrid;
-using Vector = System.Numerics.Vector;
 
-namespace Neptune.Engine.Sample
+namespace Neptune.Core.Engine.Sample
 {
     public class StupidRenderable: IRenderable
     {
@@ -28,7 +24,7 @@ namespace Neptune.Engine.Sample
             }
         }
         
-        private Vector2 _scale = Vector2.One;
+        private Vector2 _scale = Vector2.Zero;
         public Vector2 Scale
         {
             get => _scale;
@@ -46,6 +42,17 @@ namespace Neptune.Engine.Sample
             set
             {
                 _rotation = value;
+                RecalculateTransform();
+            }
+        }
+
+        private Vector2 _origin = new Vector2(0.5f, 0f);
+        public Vector2 Origin
+        {
+            get => _origin;
+            set
+            {
+                _origin = value;
                 RecalculateTransform();
             }
         }
@@ -91,7 +98,11 @@ namespace Neptune.Engine.Sample
         {
             var width = _graphicsDevice.SwapchainFramebuffer.Width;
             var height = _graphicsDevice.SwapchainFramebuffer.Height;
-
+            
+            // Offset for the origin
+            vertex = vertex - _origin;
+            
+            // Transformation
             var transformed = Vector2.Transform(vertex, _transformRotate);
             transformed = Vector2.Transform(transformed, _transformScale);
             

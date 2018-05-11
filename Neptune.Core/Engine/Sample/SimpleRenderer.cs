@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using SharpDX.DXGI;
 using Veldrid;
 
-namespace Neptune.Engine.Sample
+namespace Neptune.Core.Engine.Sample
 {
     public class SimpleRenderer: IRenderer
     {

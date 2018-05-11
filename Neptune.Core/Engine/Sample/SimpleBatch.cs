@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Neptune.Engine.Sample
+namespace Neptune.Core.Engine.Sample
 {
     public class SimpleBatch: ISpriteBatch
     {

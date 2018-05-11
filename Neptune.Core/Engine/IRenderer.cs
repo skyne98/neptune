@@ -1,7 +1,6 @@
 using System;
-using Neptune.Engine;
 
-namespace Neptune.Engine
+namespace Neptune.Core.Engine
 {
     public interface IRenderer
     {

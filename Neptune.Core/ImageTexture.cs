@@ -1,15 +1,15 @@
-﻿using SixLabors.ImageSharp;
+﻿using System;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Processing.Transforms;
 using SixLabors.ImageSharp.Processing.Transforms.Resamplers;
-using System;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using Veldrid;
 
-namespace Neptune
+namespace Neptune.Core
 {
     public class ImageTexture
     {

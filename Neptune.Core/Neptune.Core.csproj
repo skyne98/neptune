@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Neptune.Core</AssemblyName>
     <RootNamespace>Neptune.Core</RootNamespace>
+    <StartupObject>Neptune.Core.Program</StartupObject>
+    <ShaderOutputPath>bin/$(Configuration)/$(TargetFramework)/Shaders.Generated</ShaderOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -14,11 +16,14 @@
   <ItemGroup>
     <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
     <PackageReference Include="MathNet.Numerics" Version="4.4.0" />
+    <PackageReference Include="ShaderGen" Version="1.2.0-beta2" />
+    <PackageReference Include="ShaderGen.Build" Version="1.2.0-beta2" />
+    <PackageReference Include="ShaderGen.Primitives" Version="1.2.0-beta2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0003" />
-    <PackageReference Include="Veldrid" Version="4.1.4" />
-    <PackageReference Include="Veldrid.ImGui" Version="4.1.4" />
-    <PackageReference Include="Veldrid.SDL2" Version="4.2.0-beta1" />
-    <PackageReference Include="Veldrid.StartupUtilities" Version="4.1.4" />
+    <PackageReference Include="Veldrid" Version="4.2.0" />
+    <PackageReference Include="Veldrid.ImGui" Version="4.2.0" />
+    <PackageReference Include="Veldrid.SDL2" Version="4.2.0" />
+    <PackageReference Include="Veldrid.StartupUtilities" Version="4.2.0" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Shaders\Vertex.glsl">

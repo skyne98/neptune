@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Threading;
+using ImGuiNET;
 using Neptune.Core.Engine;
 using Neptune.Core.Engine.Primitives;
 using Neptune.Core.Engine.Renderers;
@@ -57,6 +58,14 @@ namespace Neptune.Core
             {
                 Add(sprite);
             }
+
+            if (ImGui.BeginMainMenuBar())
+            {
+                ImGui.Text($"{loopInfo.FramesPerSecond} fps");
+
+                ImGui.EndMainMenuBar();
+            }
+
 
             sprites[0].ZIndex = (float)Math.Max(0d, Math.Cos(loopInfo.GlobalTime));
         }

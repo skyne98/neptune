@@ -28,12 +28,8 @@ namespace Neptune.Core.Engine
         private InputManager _inputManager;
         private GraphicsDevice _graphicsDevice;
         private Sdl2Window _window;
-
         private EngineLoopInfo _loopInfo;
-        private FrameTimeAverager _frameTimeAverager;
-        private float _time = 0.0f;
-        private DateTime _lastFrame = DateTime.Now;
-        private float _fpsCap = 0.0f;
+        private ImGuiRenderer _imGuiRenderer;
 
         public EngineWindow(EngineWindowCreateInfo createInfo)
         {
@@ -42,11 +38,11 @@ namespace Neptune.Core.Engine
             CreateRenderer(createInfo);
             CreateResourceManager(createInfo);
             CreateInputManager(createInfo);
+            CreateImGuiRenderer(createInfo);
 
             _window.Resized += () => {
                 _graphicsDevice.ResizeMainWindow((uint)_window.Width, (uint)_window.Height);
             };
-            _fpsCap = createInfo.FramesPerSecondCap;
 
             var initializedInfo = new EngineInitializedInfo()
             {
@@ -58,33 +54,23 @@ namespace Neptune.Core.Engine
 
         public void Run()
         {
-            _frameTimeAverager = new FrameTimeAverager(0.222f);
             _loopInfo = new EngineLoopInfo()
             {
                 FramesPerSecond = 0,
-                GlobalTime = _time,
+                GlobalTime = _renderer.GlobalTime,
                 MillisecondsPerFrame = 0,
                 SecondsPerFrame = 0,
             };
             while (_window.Exists)
             {
-                _window.PumpEvents();
-                _loopInfo.FramesPerSecond = (float)_frameTimeAverager.CurrentAverageFramesPerSecond;
-                _loopInfo.GlobalTime = _time;
-                _loopInfo.MillisecondsPerFrame = (float)_frameTimeAverager.CurrentAverageFrameTimeMilliseconds;
-                _loopInfo.SecondsPerFrame = (float)_frameTimeAverager.CurrentAverageFrameTimeSeconds;
+                var inputsSnapshot = _window.PumpEvents();
+                _loopInfo.FramesPerSecond = (float)_renderer.FrameTimeAverager.CurrentAverageFramesPerSecond;
+                _loopInfo.GlobalTime = _renderer.GlobalTime;
+                _loopInfo.MillisecondsPerFrame = (float)_renderer.FrameTimeAverager.CurrentAverageFrameTimeMilliseconds;
+                _loopInfo.SecondsPerFrame = (float)_renderer.FrameTimeAverager.CurrentAverageFrameTimeSeconds;
+                _imGuiRenderer.Update(_renderer.LastFrameTimeSeconds, inputsSnapshot);
                 Loop(_loopInfo);
-                _renderer.Render();
-
-                var frameTime = DateTime.Now - _lastFrame;
-                _time += (float)frameTime.TotalSeconds;
-                _frameTimeAverager.AddTime(frameTime.TotalSeconds);
-                _lastFrame = DateTime.Now;
-
-                if (_frameTimeAverager.CurrentAverageFramesPerSecond > _fpsCap)
-                {
-                    Thread.Sleep(Math.Max(0, (1000 / (int)_fpsCap) - (int)_frameTimeAverager.CurrentAverageFrameTimeMilliseconds));
-                }
+                _renderer.Render(_imGuiRenderer);
             }
 
             _renderer.Dispose();
@@ -113,7 +99,6 @@ namespace Neptune.Core.Engine
             var graphicsDeviceOptions = new GraphicsDeviceOptions()
             {
                 SwapchainDepthFormat = PixelFormat.R16_UNorm,
-                SyncToVerticalBlank = true,
                 ResourceBindingModel = ResourceBindingModel.Improved
             };
 
@@ -152,7 +137,13 @@ namespace Neptune.Core.Engine
         }
         private void CreateRenderer(EngineWindowCreateInfo createInfo)
         {
-            var renderer = new MainRenderer(_graphicsDevice, _window);
+            var mainRendererOptions = new MainRendererCreateInfo()
+            {
+                GraphicsDevice = _graphicsDevice,
+                FramesPerSecondCap = createInfo.FramesPerSecondCap,
+                Window = _window
+            };
+            var renderer = new MainRenderer(mainRendererOptions);
             _renderer = renderer;
         }
         private void CreateResourceManager(EngineWindowCreateInfo createInfo)
@@ -169,6 +160,14 @@ namespace Neptune.Core.Engine
             var inputManager = new InputManager(_window);
 
             _inputManager = inputManager;
+        }
+        private void CreateImGuiRenderer(EngineWindowCreateInfo createInfo)
+        {
+            _imGuiRenderer = new ImGuiRenderer(_graphicsDevice, _graphicsDevice.SwapchainFramebuffer.OutputDescription, _window.Width, _window.Height);
+            _window.Resized += () =>
+            {
+                _imGuiRenderer.WindowResized(_window.Width, _window.Height);
+            };
         }
     }
 }

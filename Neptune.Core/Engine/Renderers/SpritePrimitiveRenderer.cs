@@ -88,7 +88,8 @@ namespace Neptune.Core.Engine.Renderers
                 _groupResourceSet = _resourceFactory.CreateResourceSet(new ResourceSetDescription(
                         _groupResourceLayout,
                         _projectionMatrixBuffer,
-                        texture.TextureView        
+                        texture.TextureView,
+                        _graphicsDevice.PointSampler
                 ));
                 _commandList.SetGraphicsResourceSet(1, _groupResourceSet);
 
@@ -177,7 +178,8 @@ namespace Neptune.Core.Engine.Renderers
             ));
             _groupResourceLayout = _resourceFactory.CreateResourceLayout(new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription("Projection", ResourceKind.UniformBuffer, ShaderStages.Vertex),
-                new ResourceLayoutElementDescription("Texture", ResourceKind.TextureReadOnly, ShaderStages.Fragment)
+                new ResourceLayoutElementDescription("Texture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
+                new ResourceLayoutElementDescription("Sampler", ResourceKind.Sampler, ShaderStages.Fragment)
             ));
 
             pipelineDescription.ResourceLayouts = new[]

@@ -1,4 +1,5 @@
-﻿using Neptune.Core.Engine.Input;
+﻿using ImGuiNET;
+using Neptune.Core.Engine.Input;
 using Neptune.Core.Engine.Primitives;
 using Neptune.Core.Engine.Renderers;
 using Neptune.Core.Engine.Resources;
@@ -68,18 +69,19 @@ namespace Neptune.Core.Engine
             };
             while (_window.Exists)
             {
-                _window.PumpEvents();
+                var inputSnapshot = _window.PumpEvents();
                 _loopInfo.FramesPerSecond = (float)_frameTimeAverager.CurrentAverageFramesPerSecond;
                 _loopInfo.GlobalTime = _time;
                 _loopInfo.MillisecondsPerFrame = (float)_frameTimeAverager.CurrentAverageFrameTimeMilliseconds;
                 _loopInfo.SecondsPerFrame = (float)_frameTimeAverager.CurrentAverageFrameTimeSeconds;
-                Loop(_loopInfo);
-                _renderer.Render();
 
                 var frameTime = DateTime.Now - _lastFrame;
                 _time += (float)frameTime.TotalSeconds;
                 _frameTimeAverager.AddTime(frameTime.TotalSeconds);
                 _lastFrame = DateTime.Now;
+
+                Loop(_loopInfo);
+                _renderer.Render(inputSnapshot, (float)frameTime.TotalSeconds);
 
                 if (_frameTimeAverager.CurrentAverageFramesPerSecond > _fpsCap)
                 {

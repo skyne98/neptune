@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ImGuiNET;
 using Neptune.Core.Engine.Primitives;
 using Veldrid;
 using Veldrid.Sdl2;
@@ -12,6 +13,7 @@ namespace Neptune.Core.Engine.Renderers
         private readonly GraphicsDevice _graphicsDevice;
         private readonly ResourceFactory _resourceFactory;
         private readonly CommandList _commandList;
+        private readonly ImGuiRenderer _imGuiRenderer;
 
         private SpritePrimitiveRenderer _spritePrimitiveRenderer;
         
@@ -20,6 +22,11 @@ namespace Neptune.Core.Engine.Renderers
             _graphicsDevice = graphicsDevice;
             _resourceFactory = graphicsDevice.ResourceFactory;
             _commandList = _resourceFactory.CreateCommandList();
+            _imGuiRenderer = new ImGuiRenderer(_graphicsDevice, _graphicsDevice.SwapchainFramebuffer.OutputDescription, window.Width, window.Height);
+            window.Resized += () =>
+            {
+                _imGuiRenderer.WindowResized(window.Width, window.Height);
+            };
             
             _spritePrimitiveRenderer = new SpritePrimitiveRenderer(graphicsDevice, _commandList, window);
         }
@@ -34,7 +41,7 @@ namespace Neptune.Core.Engine.Renderers
             }
         }
 
-        public void Render()
+        public void Render(InputSnapshot inputSnapshot, float frameTime)
         {
             _commandList.Begin();
             _commandList.SetFramebuffer(_graphicsDevice.SwapchainFramebuffer);
@@ -43,11 +50,51 @@ namespace Neptune.Core.Engine.Renderers
             _commandList.ClearDepthStencil(float.MaxValue);
 
             _spritePrimitiveRenderer.Render();
+            RenderMenu(inputSnapshot, frameTime);
             
             _commandList.End();
             _graphicsDevice.SubmitCommands(_commandList);
             _graphicsDevice.SwapBuffers();
             _graphicsDevice.WaitForIdle();
+        }
+
+        public void RenderMenu(InputSnapshot inputSnapshot, float frameTime)
+        {
+            _imGuiRenderer.Update(frameTime, inputSnapshot);
+            if (ImGui.BeginMainMenuBar())
+            {
+                if (ImGui.BeginMenu("Settings"))
+                {
+                    if (ImGui.BeginMenu("Graphics Backend"))
+                    {
+                        if (ImGui.MenuItem("Vulkan", GraphicsDevice.IsBackendSupported(GraphicsBackend.Vulkan)))
+                        {
+
+                        }
+                        if (ImGui.MenuItem("OpenGL", GraphicsDevice.IsBackendSupported(GraphicsBackend.OpenGL)))
+                        {
+
+                        }
+                        if (ImGui.MenuItem("OpenGL ES", GraphicsDevice.IsBackendSupported(GraphicsBackend.OpenGLES)))
+                        {
+
+                        }
+                        if (ImGui.MenuItem("Direct3D 11", GraphicsDevice.IsBackendSupported(GraphicsBackend.Direct3D11)))
+                        {
+
+                        }
+                        if (ImGui.MenuItem("Metal", GraphicsDevice.IsBackendSupported(GraphicsBackend.Metal)))
+                        {
+
+                        }
+                        ImGui.EndMenu();
+                    }
+                    ImGui.EndMenu();
+                }
+
+                ImGui.EndMainMenuBar();
+            }
+            _imGuiRenderer.Render(_graphicsDevice, _commandList);
         }
 
         public void Dispose()

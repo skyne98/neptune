@@ -106,12 +106,12 @@ namespace Neptune.Core.Engine.Renderers
 
                         // Update the vertices
                         var vertices = new List<VertexInfo>()
-                    {
-                        new VertexInfo(new Vector2(0, 1), new Vector2(0, 1), sprite.Color),
-                        new VertexInfo(new Vector2(1, 1), new Vector2(1, 1), sprite.Color),
-                        new VertexInfo(new Vector2(0, 0), new Vector2(0, 0), sprite.Color),
-                        new VertexInfo(new Vector2(1, 0), new Vector2(1, 0), sprite.Color)
-                    };
+                        {
+                            new VertexInfo(new Vector2(0, 1), new Vector2(0, 1), sprite.Color),
+                            new VertexInfo(new Vector2(1, 1), new Vector2(1, 1), sprite.Color),
+                            new VertexInfo(new Vector2(0, 0), new Vector2(0, 0), sprite.Color),
+                            new VertexInfo(new Vector2(1, 0), new Vector2(1, 0), sprite.Color)
+                        };
                         sprite.Vertices = vertices;
 
                         _graphicsDevice.UpdateBuffer(sprite.VertexBuffer, 0, vertices.ToArray());

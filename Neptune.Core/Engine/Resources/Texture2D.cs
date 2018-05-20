@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Numerics;
+using System.Security.Cryptography;
 using Veldrid;
 
 namespace Neptune.Core.Engine.Resources
@@ -19,11 +20,12 @@ namespace Neptune.Core.Engine.Resources
         public string Hash => _hash;
         public TextureView TextureView => _textureView;
         
-        public Texture2D(ImageTexture imageTexture, Texture deviceTexture, TextureView textureView)
+        public Texture2D(ImageTexture imageTexture, Texture deviceTexture, TextureView textureView, string hash)
         {
             _imageTexture = imageTexture;
             _deviceTexture = deviceTexture;
             _textureView = textureView;
+            _hash = hash;
             
             _size = new Vector2(_imageTexture.Width, _imageTexture.Height);
         }
@@ -35,12 +37,21 @@ namespace Neptune.Core.Engine.Resources
                 var texture = new ImageTexture(path);
                 var deviceTexture = texture.CreateDeviceTexture(graphicsDevice, resourceFactory);
                 var textureView = resourceFactory.CreateTextureView(deviceTexture);
-                
-                return new Texture2D(texture, deviceTexture, textureView);
+                var hash = "";
+                using (var sha = SHA256Managed.Create())
+                {
+                    using (var stream = File.OpenRead(path))
+                    {
+                        var rawHash = sha.ComputeHash(stream);
+                        hash = BitConverter.ToString(rawHash).Replace("-", "").ToLowerInvariant();
+                    }
+                }
+
+                return new Texture2D(texture, deviceTexture, textureView, hash);
             }
             else
             {
-                throw new Exception("Texture you are trying to load cannot be found");
+                throw new Exception($"Texture {path} you are trying to load cannot be found");
             }
         } 
     }

@@ -15,8 +15,6 @@ namespace Neptune.Core.Engine.Renderers
 
         private SpritePrimitiveRenderer _spritePrimitiveRenderer;
         
-        private List<SpriteRenderingPrimitive> _spritesToRender;
-        
         public MainRenderer(GraphicsDevice graphicsDevice, Sdl2Window window)
         {
             _graphicsDevice = graphicsDevice;
@@ -24,16 +22,14 @@ namespace Neptune.Core.Engine.Renderers
             _commandList = _resourceFactory.CreateCommandList();
             
             _spritePrimitiveRenderer = new SpritePrimitiveRenderer(graphicsDevice, _commandList, window);
-            
-            _spritesToRender = new List<SpriteRenderingPrimitive>();
         }
 
         public void Add(IRenderingPrimitive renderingPrimitive)
         {
             switch (renderingPrimitive)
             {
-                case SpriteRenderingPrimitive sprite:
-                    _spritesToRender.Add(sprite);
+                case SpritePrimitive sprite:
+                    _spritePrimitiveRenderer.Add(sprite);
                     break;
             }
         }
@@ -44,16 +40,14 @@ namespace Neptune.Core.Engine.Renderers
             _commandList.SetFramebuffer(_graphicsDevice.SwapchainFramebuffer);
             _commandList.SetFullViewports();
             _commandList.ClearColorTarget(0, RgbaFloat.Black);
+            _commandList.ClearDepthStencil(float.MaxValue);
 
-            _spritePrimitiveRenderer.Render(_spritesToRender);
+            _spritePrimitiveRenderer.Render();
             
             _commandList.End();
             _graphicsDevice.SubmitCommands(_commandList);
             _graphicsDevice.SwapBuffers();
             _graphicsDevice.WaitForIdle();
-            
-            // Clear the lists
-            _spritesToRender.Clear();
         }
 
         public void Dispose()

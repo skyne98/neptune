@@ -25,16 +25,19 @@ namespace Neptune.Core.Shaders
         }
         
         [ResourceSet(0)] public Matrix4x4 Model;
-        [ResourceSet(0)] public Matrix4x4 Projection;
-        [ResourceSet(0)] public Texture2DResource Texture;
-        [ResourceSet(0)] public SamplerResource Sampler;
+        [ResourceSet(0)] public float ZIndex;
+
+        [ResourceSet(1)] public Matrix4x4 Projection;
+        [ResourceSet(1)] public Texture2DResource Texture;
+        [ResourceSet(1)] public SamplerResource Sampler;
 
         [VertexShader]
         public PixelInput VS(VertexInput input)
         {
             PixelInput output;
-
+            
             output.Position = Vector4.Transform(input.Position, Projection * Model);
+            output.Position.Z = ZIndex;
             output.UV = input.UV;
             output.Color = input.Color;
 

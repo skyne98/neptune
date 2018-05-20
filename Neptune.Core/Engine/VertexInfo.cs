@@ -8,6 +8,7 @@ namespace Neptune.Core.Engine
         public Vector2 Position; // This is the position, in normalized device coordinates.
         public Vector2 TexCoord;
         public RgbaFloat Color; // This is the color of the vertex.
+
         public VertexInfo(Vector2 position, Vector2 texCoord, RgbaFloat color)
         {
             Position = position;

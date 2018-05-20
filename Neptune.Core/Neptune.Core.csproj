@@ -6,6 +6,7 @@
     <RootNamespace>Neptune.Core</RootNamespace>
     <StartupObject>Neptune.Core.Program</StartupObject>
     <ShaderOutputPath>bin/$(Configuration)/$(TargetFramework)/Shaders.Generated</ShaderOutputPath>
+    <ApplicationIcon />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -27,6 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\doge.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\MissingTexture.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="cimgui.so">

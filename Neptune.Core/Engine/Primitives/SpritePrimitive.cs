@@ -7,17 +7,18 @@ using Veldrid;
 
 namespace Neptune.Core.Engine.Primitives
 {
-    public class SpriteRenderingPrimitive : IRenderingPrimitive
+    public class SpritePrimitive : IRenderingPrimitive
     {
         private Texture2D _texture;
         private Vector2 _size = new Vector2(500f, 500f);
         private Vector2 _position = new Vector2(0f, 0f);
+        private float _zIndex = 0f;
         private Vector2 _scale = Vector2.One;
         private float _rotation = 0f;
         private Vector2 _origin = Vector2.Zero;
         private RgbaFloat _color = RgbaFloat.White;
 
-        public SpriteRenderingPrimitive(Texture2D texture, GraphicsDevice graphicsDevice)
+        public SpritePrimitive(Texture2D texture, GraphicsDevice graphicsDevice)
         {
             _texture = texture;
             _size = _texture.Size;
@@ -25,6 +26,8 @@ namespace Neptune.Core.Engine.Primitives
                 BufferUsage.VertexBuffer));
             _modelMatrixBuffer = graphicsDevice.ResourceFactory.CreateBuffer(
                 new BufferDescription(64, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
+            _zIndexBuffer = graphicsDevice.ResourceFactory.CreateBuffer(
+                new BufferDescription(16, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
         }
 
         private bool _dirty = true;
@@ -32,6 +35,7 @@ namespace Neptune.Core.Engine.Primitives
         private List<VertexInfo> _vertices;
         private DeviceBuffer _vertexBuffer;
         private DeviceBuffer _modelMatrixBuffer;
+        private DeviceBuffer _zIndexBuffer;
 
         public Vector2 Size
         {
@@ -49,6 +53,16 @@ namespace Neptune.Core.Engine.Primitives
             set
             {
                 _position = value;
+                _dirty = true;
+            }
+        }
+
+        public float ZIndex
+        {
+            get => _zIndex;
+            set
+            {
+                _zIndex = value;
                 _dirty = true;
             }
         }
@@ -133,6 +147,12 @@ namespace Neptune.Core.Engine.Primitives
         {
             get => _modelMatrixBuffer;
             set => _modelMatrixBuffer = value;
+        }
+
+        public DeviceBuffer ZIndexBuffer
+        {
+            get => _zIndexBuffer;
+            set => _zIndexBuffer = value;
         }
     }
 }

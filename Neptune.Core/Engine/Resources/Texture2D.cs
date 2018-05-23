@@ -32,6 +32,9 @@ namespace Neptune.Core.Engine.Resources
 
         public static Texture2D FromFile(string path, GraphicsDevice graphicsDevice, ResourceFactory resourceFactory)
         {
+            var executablePath = System.Reflection.Assembly.GetEntryAssembly().Location;
+            path = Path.Combine(Path.GetDirectoryName(executablePath), path);
+            Console.WriteLine($"Loading texture at {path}");
             if (File.Exists(path))
             {
                 var texture = new ImageTexture(path);

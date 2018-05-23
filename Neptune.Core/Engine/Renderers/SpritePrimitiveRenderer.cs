@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using Veldrid;
 using Veldrid.Sdl2;
 using Vulkan;
@@ -161,8 +162,8 @@ namespace Neptune.Core.Engine.Renderers
                 new VertexElementDescription("Color", VertexElementSemantic.Color, VertexElementFormat.Float4)
             );
 
-            _vertexShader = LoadShader("SpriteShader", ShaderStages.Vertex);
-            _fragmentShader = LoadShader("SpriteShader", ShaderStages.Fragment);
+            _vertexShader = LoadShader(_resourceFactory, "SpriteShader", ShaderStages.Vertex, "VS");
+            _fragmentShader = LoadShader(_resourceFactory, "SpriteShader", ShaderStages.Fragment, "PS");
 
             var pipelineDescription = new GraphicsPipelineDescription
             {
@@ -195,7 +196,7 @@ namespace Neptune.Core.Engine.Renderers
             _pipeline = _resourceFactory.CreateGraphicsPipeline(pipelineDescription);
         }
 
-        private Shader LoadShader(string name, ShaderStages stage)
+        private Shader LoadShaderFromFile(string name, ShaderStages stage)
         {
             string extension = null;
             switch (_graphicsDevice.BackendType)
@@ -220,6 +221,48 @@ namespace Neptune.Core.Engine.Renderers
                 $"{name}-{stage.ToString().ToLower()}.{extension}");
             byte[] shaderBytes = File.ReadAllBytes(path);
             return _graphicsDevice.ResourceFactory.CreateShader(new ShaderDescription(stage, shaderBytes, entryPoint));
+        }
+        private Shader LoadShader(ResourceFactory factory, string set, ShaderStages stage, string entryPoint)
+        {
+            string name = $"{set}-{stage.ToString().ToLower()}.{GetExtension(factory.BackendType)}";
+            return factory.CreateShader(new ShaderDescription(stage, ReadEmbeddedAssetBytes(name), entryPoint));
+        }
+
+        private byte[] ReadEmbeddedAssetBytes(string name)
+        {
+            using (Stream stream = OpenEmbeddedAssetStream(name))
+            {
+                byte[] bytes = new byte[stream.Length];
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    stream.CopyTo(ms);
+                    return bytes;
+                }
+            }
+        }
+        
+        private static string GetExtension(GraphicsBackend backendType)
+        {
+            bool isMacOS = RuntimeInformation.OSDescription.Contains("Darwin");
+
+            return (backendType == GraphicsBackend.Direct3D11)
+                ? "hlsl.bytes"
+                : (backendType == GraphicsBackend.Vulkan)
+                    ? "450.glsl.spv"
+                    : (backendType == GraphicsBackend.Metal)
+                        ? isMacOS ? "metallib" : "ios.metallib"
+                        : (backendType == GraphicsBackend.OpenGL)
+                            ? "330.glsl"
+                            : "300.glsles";
+        }
+
+        private Stream OpenEmbeddedAssetStream(string name)
+        {
+            var type = GetType();
+            var assembly = type.Assembly;
+            var m = assembly.GetManifestResourceNames();
+            
+            return assembly.GetManifestResourceStream(name);
         }
     }
 }

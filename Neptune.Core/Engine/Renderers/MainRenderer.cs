@@ -24,7 +24,7 @@ namespace Neptune.Core.Engine.Renderers
         }
         public float LastFrameTimeSeconds
         {
-            get => _lastFrameTimeMilliseconds * 1000f;
+            get => _lastFrameTimeMilliseconds / 1000f;
         }
 
         private readonly GraphicsDevice _graphicsDevice;
@@ -69,7 +69,7 @@ namespace Neptune.Core.Engine.Renderers
             var frameTime = DateTime.Now - _lastFrame;
             _time += (float)frameTime.TotalSeconds;
             _frameTimeAverager.AddTime(frameTime.TotalSeconds);
-            _lastFrameTimeMilliseconds = frameTime.Milliseconds;
+            _lastFrameTimeMilliseconds = (float)frameTime.TotalMilliseconds;
             _lastFrame = DateTime.Now;
 
             if (_frameTimeAverager.CurrentAverageFramesPerSecond > _fpsCap)

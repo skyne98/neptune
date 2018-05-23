@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Threading;
-using ImGuiNET;
+﻿using ImGuiNET;
 using Neptune.Core.Engine;
 using Neptune.Core.Engine.Primitives;
-using Neptune.Core.Engine.Renderers;
-using Neptune.Core.Engine.Resources;
+using System;
+using System.Collections.Generic;
+using System.Numerics;
+using System.Text;
 using Veldrid;
-using Veldrid.Sdl2;
-using Veldrid.StartupUtilities;
 
-namespace Neptune.Core
+namespace Neptune.Demo
 {
     public class Program
     {
@@ -19,7 +15,7 @@ namespace Neptune.Core
         {
             var createInfo = new EngineWindowCreateInfo()
             {
-                PreferredBackend = GraphicsBackend.Vulkan
+                PreferredBackend = GraphicsBackend.OpenGL
             };
             var myWindow = new MyWindow(createInfo);
             myWindow.Run();
@@ -30,7 +26,7 @@ namespace Neptune.Core
     {
         private List<SpritePrimitive> sprites = new List<SpritePrimitive>();
 
-        public MyWindow(EngineWindowCreateInfo createInfo): base(createInfo)
+        public MyWindow(EngineWindowCreateInfo createInfo) : base(createInfo)
         {
             // Resources
             ResourceManager.LoadTexture("Assets/doge.jpg", "Doge");
@@ -52,7 +48,7 @@ namespace Neptune.Core
             sprites.Add(sprite2);
         }
 
-        public override void Loop(EngineLoopInfo loopInfo)
+        public unsafe override void Loop(EngineLoopInfo loopInfo)
         {
             foreach (var sprite in sprites)
             {
@@ -63,11 +59,33 @@ namespace Neptune.Core
             {
                 ImGui.Text($"{loopInfo.FramesPerSecond} fps");
 
+                if (ImGui.BeginMenu("Some stuff"))
+                {
+                    if (ImGui.MenuItem("Some item"))
+                    {
+                        Console.WriteLine("You clicked some item");
+                    }
+                    byte[] buffer = new byte[256];
+                    if (ImGui.InputText("Label", buffer, 256, InputTextFlags.Default, OnTextEdited))
+                    {
+                        Console.WriteLine(Encoding.UTF8.GetString(buffer));
+                    }
+                    
+                    ImGui.EndMenu();
+                }
+
                 ImGui.EndMainMenuBar();
             }
 
 
             sprites[0].ZIndex = (float)Math.Max(0d, Math.Cos(loopInfo.GlobalTime));
         }
+        
+        private unsafe int OnTextEdited(TextEditCallbackData* data)
+        {
+            char currentEventChar = (char)data->EventChar;
+            Console.WriteLine($"Char: {currentEventChar} Stirng: {""}");
+            return 0;
+        } 
     }
 }

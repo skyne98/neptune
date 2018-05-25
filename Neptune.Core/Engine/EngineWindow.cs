@@ -35,8 +35,8 @@ namespace Neptune.Core.Engine
         {
             CreateWindow(createInfo);
             CreateGraphicsDevice(createInfo);
-            CreateRenderer(createInfo);
             CreateResourceManager(createInfo);
+            CreateRenderer(createInfo);
             CreateInputManager(createInfo);
             CreateImGuiRenderer(createInfo);
 
@@ -141,7 +141,8 @@ namespace Neptune.Core.Engine
             {
                 GraphicsDevice = _graphicsDevice,
                 FramesPerSecondCap = createInfo.FramesPerSecondCap,
-                Window = _window
+                Window = _window,
+                ResourceManager = _resourceManager
             };
             var renderer = new MainRenderer(mainRendererOptions);
             _renderer = renderer;

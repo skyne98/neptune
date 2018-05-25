@@ -5,9 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using Neptune.Core.Engine.Resources;
+using Neptune.Core.Shaders;
 using Veldrid;
 using Veldrid.Sdl2;
 using Vulkan;
+using Shader = Veldrid.Shader;
 
 // TODO: Optimizations
 // Geometry streaming: http://voidptr.io/blog/2016/04/28/ldEngine-Part-1.html
@@ -19,6 +22,7 @@ namespace Neptune.Core.Engine.Renderers
         private GraphicsDevice _graphicsDevice;
         private CommandList _commandList;
         private readonly Sdl2Window _window;
+        private readonly ResourceManager _resourceManager;
         private ResourceFactory _resourceFactory;
         private Pipeline _pipeline;
         private Shader _vertexShader;
@@ -36,11 +40,12 @@ namespace Neptune.Core.Engine.Renderers
 
         private Dictionary<string, List<SpritePrimitive>> _groupedSprites;
 
-        public SpritePrimitiveRenderer(GraphicsDevice graphicsDevice, CommandList commandsList, Sdl2Window window)
+        public SpritePrimitiveRenderer(GraphicsDevice graphicsDevice, CommandList commandsList, Sdl2Window window, ResourceManager resourceManager)
         {
             _graphicsDevice = graphicsDevice;
             _commandList = commandsList;
             _window = window;
+            _resourceManager = resourceManager;
             _resourceFactory = _graphicsDevice.ResourceFactory;
             _groupedSprites = new Dictionary<string, List<SpritePrimitive>>();
 
@@ -162,8 +167,7 @@ namespace Neptune.Core.Engine.Renderers
                 new VertexElementDescription("Color", VertexElementSemantic.Color, VertexElementFormat.Float4)
             );
 
-            _vertexShader = LoadShader(_resourceFactory, "SpriteShader", ShaderStages.Vertex, "VS");
-            _fragmentShader = LoadShader(_resourceFactory, "SpriteShader", ShaderStages.Fragment, "PS");
+            var shader = _resourceManager.LoadShader<SpriteShader>("SpriteShader");
 
             var pipelineDescription = new GraphicsPipelineDescription
             {
@@ -190,79 +194,10 @@ namespace Neptune.Core.Engine.Renderers
             };
             pipelineDescription.ShaderSet = new ShaderSetDescription(
                 vertexLayouts: new VertexLayoutDescription[] {vertexLayout},
-                shaders: new Shader[] {_vertexShader, _fragmentShader});
+                shaders: shader.Get().GetShaderSet());
 
             pipelineDescription.Outputs = _graphicsDevice.SwapchainFramebuffer.OutputDescription;
             _pipeline = _resourceFactory.CreateGraphicsPipeline(pipelineDescription);
-        }
-
-        private Shader LoadShaderFromFile(string name, ShaderStages stage)
-        {
-            string extension = null;
-            switch (_graphicsDevice.BackendType)
-            {
-                case GraphicsBackend.Direct3D11:
-                    extension = "hlsl.bytes";
-                    break;
-                case GraphicsBackend.Vulkan:
-                    extension = "450.glsl.spv";
-                    break;
-                case GraphicsBackend.OpenGL:
-                    extension = "330.glsl";
-                    break;
-                case GraphicsBackend.OpenGLES:
-                    extension = "300.glsles";
-                    break;
-                default: throw new System.InvalidOperationException();
-            }
-
-            string entryPoint = stage == ShaderStages.Vertex ? "VS" : "FS";
-            string path = Path.Combine(System.AppContext.BaseDirectory, "Shaders.Generated",
-                $"{name}-{stage.ToString().ToLower()}.{extension}");
-            byte[] shaderBytes = File.ReadAllBytes(path);
-            return _graphicsDevice.ResourceFactory.CreateShader(new ShaderDescription(stage, shaderBytes, entryPoint));
-        }
-        private Shader LoadShader(ResourceFactory factory, string set, ShaderStages stage, string entryPoint)
-        {
-            string name = $"{set}-{stage.ToString().ToLower()}.{GetExtension(factory.BackendType)}";
-            return factory.CreateShader(new ShaderDescription(stage, ReadEmbeddedAssetBytes(name), entryPoint));
-        }
-
-        private byte[] ReadEmbeddedAssetBytes(string name)
-        {
-            using (Stream stream = OpenEmbeddedAssetStream(name))
-            {
-                byte[] bytes = new byte[stream.Length];
-                using (MemoryStream ms = new MemoryStream(bytes))
-                {
-                    stream.CopyTo(ms);
-                    return bytes;
-                }
-            }
-        }
-        
-        private static string GetExtension(GraphicsBackend backendType)
-        {
-            bool isMacOS = RuntimeInformation.OSDescription.Contains("Darwin");
-
-            return (backendType == GraphicsBackend.Direct3D11)
-                ? "hlsl.bytes"
-                : (backendType == GraphicsBackend.Vulkan)
-                    ? "450.glsl.spv"
-                    : (backendType == GraphicsBackend.Metal)
-                        ? isMacOS ? "metallib" : "ios.metallib"
-                        : (backendType == GraphicsBackend.OpenGL)
-                            ? "330.glsl"
-                            : "300.glsles";
-        }
-
-        private Stream OpenEmbeddedAssetStream(string name)
-        {
-            var type = GetType();
-            var assembly = type.Assembly;
-            var m = assembly.GetManifestResourceNames();
-            
-            return assembly.GetManifestResourceStream(name);
         }
     }
 }

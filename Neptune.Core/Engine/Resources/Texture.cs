@@ -6,7 +6,7 @@ using Veldrid;
 
 namespace Neptune.Core.Engine.Resources
 {
-    public class Texture2D
+    public class Texture: IResource
     {
         private readonly ImageTexture _imageTexture;
         private readonly Veldrid.Texture _deviceTexture;
@@ -16,11 +16,11 @@ namespace Neptune.Core.Engine.Resources
         private string _hash;
 
         public Vector2 Size => _size;
-        public Texture DeviceTexture => _deviceTexture;
+        public Veldrid.Texture DeviceTexture => _deviceTexture;
         public string Hash => _hash;
         public TextureView TextureView => _textureView;
         
-        public Texture2D(ImageTexture imageTexture, Texture deviceTexture, TextureView textureView, string hash)
+        public Texture(ImageTexture imageTexture, Veldrid.Texture deviceTexture, TextureView textureView, string hash)
         {
             _imageTexture = imageTexture;
             _deviceTexture = deviceTexture;
@@ -30,7 +30,7 @@ namespace Neptune.Core.Engine.Resources
             _size = new Vector2(_imageTexture.Width, _imageTexture.Height);
         }
 
-        public static Texture2D FromFile(string path, GraphicsDevice graphicsDevice, ResourceFactory resourceFactory)
+        public static Texture FromFile(string path, GraphicsDevice graphicsDevice, ResourceFactory resourceFactory)
         {
             var executablePath = System.Reflection.Assembly.GetEntryAssembly().Location;
             path = Path.Combine(Path.GetDirectoryName(executablePath), path);
@@ -50,12 +50,19 @@ namespace Neptune.Core.Engine.Resources
                     }
                 }
 
-                return new Texture2D(texture, deviceTexture, textureView, hash);
+                return new Texture(texture, deviceTexture, textureView, hash);
             }
             else
             {
                 throw new Exception($"Texture {path} you are trying to load cannot be found");
             }
-        } 
+        }
+
+        public void Dispose()
+        {
+            _imageTexture?.Dispose();
+            _deviceTexture?.Dispose();
+            _textureView?.Dispose();
+        }
     }
 }

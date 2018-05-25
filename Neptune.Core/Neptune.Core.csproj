@@ -1,50 +1,50 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <OutputType>Library</OutputType>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <AssemblyName>Neptune.Core</AssemblyName>
-        <RootNamespace>Neptune.Core</RootNamespace>
-        <StartupObject>
-        </StartupObject>
-        <ShaderOutputPath>bin/$(Configuration)/$(TargetFramework)/Shaders.Generated</ShaderOutputPath>
-        <ShaderContentIncludePath>Shaders.Generated</ShaderContentIncludePath>
-        <ApplicationIcon/>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Neptune.Core</AssemblyName>
+    <RootNamespace>Neptune.Core</RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <ShaderOutputPath>bin/$(Configuration)/$(TargetFramework)/Shaders.Generated</ShaderOutputPath>
+    <ShaderContentIncludePath>Shaders.Generated</ShaderContentIncludePath>
+    <ApplicationIcon />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
+    <PackageReference Include="MathNet.Numerics" Version="4.4.0" />
+    <PackageReference Include="ShaderGen" Version="1.2.0-beta2" />
+    <PackageReference Include="ShaderGen.Build" Version="1.2.0-beta2" />
+    <PackageReference Include="ShaderGen.Primitives" Version="1.2.0-beta2" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0003" />
+    <PackageReference Include="Veldrid" Version="4.2.0" />
+    <PackageReference Include="Veldrid.ImGui" Version="4.2.0" />
+    <PackageReference Include="Veldrid.SDL2" Version="4.2.0" />
+    <PackageReference Include="Veldrid.StartupUtilities" Version="4.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\doge.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\MissingTexture.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="cimgui.so">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Target Name="IncludeGeneratedShaderEmbeddedResource" AfterTargets="AssignTargetPaths" Condition="'$(ShaderOutputPath)' != ''">
     <ItemGroup>
-        <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131"/>
-        <PackageReference Include="MathNet.Numerics" Version="4.4.0"/>
-        <PackageReference Include="ShaderGen" Version="1.2.0-beta2"/>
-        <PackageReference Include="ShaderGen.Build" Version="1.2.0-beta2"/>
-        <PackageReference Include="ShaderGen.Primitives" Version="1.2.0-beta2"/>
-        <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0003"/>
-        <PackageReference Include="Veldrid" Version="4.2.0"/>
-        <PackageReference Include="Veldrid.ImGui" Version="4.2.0"/>
-        <PackageReference Include="Veldrid.SDL2" Version="4.2.0"/>
-        <PackageReference Include="Veldrid.StartupUtilities" Version="4.2.0"/>
+      <Message Text="@(GeneratedShader)" />
+      <EmbeddedResource Include="@(GeneratedShader)">
+        <LogicalName>%(FileName)%(Extension)</LogicalName>
+      </EmbeddedResource>
     </ItemGroup>
-    <ItemGroup>
-        <None Update="Assets\doge.jpg">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Assets\MissingTexture.png">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="cimgui.so">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-    <Target Name="IncludeGeneratedShaderEmbeddedResource" AfterTargets="AssignTargetPaths" Condition="'$(ShaderOutputPath)' != ''">
-        <ItemGroup>
-            <Message Text="@(GeneratedShader)" />
-            <EmbeddedResource Include="@(GeneratedShader)">
-                <LogicalName>%(FileName)%(Extension)</LogicalName>
-            </EmbeddedResource>
-        </ItemGroup>
-    </Target>
+  </Target>
 </Project>

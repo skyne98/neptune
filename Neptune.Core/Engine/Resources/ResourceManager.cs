@@ -1,42 +1,77 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
+using Neptune.Core.Shaders;
 using Veldrid;
+using Vulkan;
 
 namespace Neptune.Core.Engine.Resources
 {
-    public class ResourceManager
+    public class ResourceManager: IDisposable
     {
         private GraphicsDevice _graphicsDevice;
-        private Dictionary<string, Texture2D> _textures = new Dictionary<string, Texture2D>();
+        
+        private List<IDisposable> _disposables = new List<IDisposable>();
+        private Dictionary<string, ResourceLink<Texture>> _textures = new Dictionary<string, ResourceLink<Texture>>();
+        private Dictionary<string, ResourceLink<Shader>> _shaders = new Dictionary<string, ResourceLink<Shader>>();
 
         public ResourceManager(GraphicsDevice graphicsDevice)
         {
             _graphicsDevice = graphicsDevice;
         }
 
-        public void LoadTexture(string path, string name, bool fallback = true)
+        public ResourceLink<Texture> LoadTexture(string path, string name)
         {
             try
             {
+                var texture = Texture.FromFile(path, _graphicsDevice, _graphicsDevice.ResourceFactory);
+                _disposables.Add(texture);
                 if (_textures.ContainsKey(name) == false)
                 {
-                    var texture = Texture2D.FromFile(path, _graphicsDevice, _graphicsDevice.ResourceFactory);
-                    _textures.Add(name, texture);
+                    _textures.Add(name, new ResourceLink<Texture>(texture));
                 }
-            }
-            catch (FileNotFoundException ex)
-            {
-                Console.WriteLine($"File not found: {Environment.NewLine} {ex}");
+                else
+                {
+                    _textures[name].Set(texture);   
+                }
+
+                return _textures[name];
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Unknown error occured: {Environment.NewLine} {ex}");
+                Console.WriteLine($"Error occured while trying to load {name} from {path}");
+                throw;
             }
         }
 
-        public Texture2D GetTexture(string name)
+        public ResourceLink<Shader> LoadShader<T>(string name) where T: IShader
+        {
+            try
+            {
+                var shaderResource = Shader.From<T>(_graphicsDevice);
+                    
+                _disposables.Add(shaderResource);
+                if (_shaders.ContainsKey(name) == false)
+                {
+                    _shaders.Add(name, new ResourceLink<Shader>(shaderResource));
+                }
+                else
+                {
+                    _shaders[name].Set(shaderResource);   
+                }
+
+                return _shaders[name];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occured while trying to load {name}");
+                throw;
+            }
+        }
+
+        public ResourceLink<Texture> GetTexture(string name)
         {
             if (_textures.ContainsKey(name))
             {
@@ -44,7 +79,26 @@ namespace Neptune.Core.Engine.Resources
                 return texture;
             }
 
-            throw new Exception($"Texture {name} was not loaded");
+            throw new Exception($"Texture {name} is not loaded");
+        }
+
+        public ResourceLink<Shader> GetShader(string name)
+        {
+            if (_shaders.ContainsKey(name))
+            {
+                var shader = _shaders[name];
+                return shader;
+            }
+            
+            throw new Exception($"Shader {name} is not loaded");
+        }
+
+        public void Dispose()
+        {
+            foreach (var disposable in _disposables)
+            {
+                disposable.Dispose();
+            }
         }
     }
 }

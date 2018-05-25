@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using Neptune.Core.Engine.Primitives;
+using Neptune.Core.Engine.Resources;
+using Neptune.Core.Shaders;
 using Veldrid;
 using Veldrid.Sdl2;
 using Vulkan;
@@ -32,6 +34,7 @@ namespace Neptune.Core.Engine.Renderers
         private readonly CommandList _commandList;
         private readonly Sdl2Window _window;
         private readonly ImGuiRenderer _guiRenderer;
+        private readonly ResourceManager _resourceManager;
 
         private FrameTimeAverager _frameTimeAverager;
         private float _time = 0.0f;
@@ -47,11 +50,12 @@ namespace Neptune.Core.Engine.Renderers
             _resourceFactory = createInfo.GraphicsDevice.ResourceFactory;
             _commandList = _resourceFactory.CreateCommandList();
             _window = createInfo.Window;
+            _resourceManager = createInfo.ResourceManager;
 
             _frameTimeAverager = new FrameTimeAverager(0.222f);
             _fpsCap = createInfo.FramesPerSecondCap;
-
-            _spritePrimitiveRenderer = new SpritePrimitiveRenderer(_graphicsDevice, _commandList, _window);
+            
+            _spritePrimitiveRenderer = new SpritePrimitiveRenderer(_graphicsDevice, _commandList, _window, _resourceManager);
         }
 
         public void Add(IRenderingPrimitive renderingPrimitive)

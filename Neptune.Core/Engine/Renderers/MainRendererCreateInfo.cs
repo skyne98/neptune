@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Neptune.Core.Engine.Resources;
 using Veldrid;
 using Veldrid.Sdl2;
 
@@ -16,5 +17,8 @@ namespace Neptune.Core.Engine.Renderers
 
         // Engine
         public float FramesPerSecondCap { get; set; } = 120.0f;
+        
+        // Resource manager
+        public ResourceManager ResourceManager { get; set; }
     }
 }

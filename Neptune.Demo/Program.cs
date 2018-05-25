@@ -40,7 +40,7 @@ namespace Neptune.Demo
             };
             var sprite2 = new SpritePrimitive(doge, GraphicsDevice)
             {
-                Position = Vector2.Zero - doge.Size / 2,
+                Position = Vector2.Zero - doge.Get().Size / 2,
                 ZIndex = 0.5f
             };
 
@@ -55,6 +55,10 @@ namespace Neptune.Demo
                 Add(sprite);
             }
 
+            var style = ImGui.GetStyle();
+            style.SetColor(ColorTarget.FrameBg, new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+            ImGui.StyleColorsClassic(style);            
+            
             if (ImGui.BeginMainMenuBar())
             {
                 ImGui.Text($"{loopInfo.FramesPerSecond} fps");

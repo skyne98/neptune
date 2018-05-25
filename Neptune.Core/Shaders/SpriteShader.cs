@@ -8,7 +8,7 @@ using Vulkan;
 
 namespace Neptune.Core.Shaders
 {
-    public class SpriteShader
+    public class SpriteShader: IShader
     {
         public struct VertexInput
         {

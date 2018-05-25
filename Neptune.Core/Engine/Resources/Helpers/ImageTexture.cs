@@ -11,7 +11,7 @@ using Veldrid;
 
 namespace Neptune.Core
 {
-    public class ImageTexture
+    public class ImageTexture: IDisposable
     {
         /// <summary>
         /// An array of images, each a single element in the mipmap chain.
@@ -166,6 +166,14 @@ namespace Neptune.Core
             Debug.Assert(i == mipLevelCount);
 
             return mipLevels;
+        }
+
+        public void Dispose()
+        {
+            foreach (var image in Images)
+            {
+                image.Dispose();
+            }
         }
     }
 }

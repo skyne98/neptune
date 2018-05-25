@@ -11,5 +11,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptune.Core\Neptune.Core.csproj" />
+    <ProjectReference Include="..\Neptune.JobSystem\Neptune.JobSystem.csproj" />
   </ItemGroup>
 </Project>

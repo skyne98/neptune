@@ -5,20 +5,90 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
+using System.Threading.Tasks;
+using Neptune.JobSystem;
+using Neptune.JobSystem.Jobs;
 using Veldrid;
 
 namespace Neptune.Demo
 {
     public class Program
     {
+        public static int Samples = 1000000;
+        public static int Iterations = 40;
+        
         static void Main()
         {
-            var createInfo = new EngineWindowCreateInfo()
+            JobManager jobManager = new JobManager();
+
+            var startTime = DateTime.Now;
+            for (int i = 0; i < Samples; i++)
             {
-                PreferredBackend = GraphicsBackend.OpenGL
-            };
-            var myWindow = new MyWindow(createInfo);
-            myWindow.Run();
+                var job = new MyJob(jobManager);
+                job.Schedule();
+            }
+            jobManager.WaitAll();
+            Console.WriteLine($"Jobs {(DateTime.Now - startTime).TotalMilliseconds} ms");
+            
+            startTime = DateTime.Now;
+            for (int i = 0; i < Samples; i++)
+            {
+                var sum = Matrix4x4.Identity;
+            
+                for (int x = 0; x < Iterations; x++)
+                {
+                    sum *= Matrix4x4.Identity;
+                }
+            }
+            Console.WriteLine($"Sync {(DateTime.Now - startTime).TotalMilliseconds} ms");
+
+            startTime = DateTime.Now;
+            var taskFactory = new TaskFactory();
+            var taskList = new List<Task>();
+            for (int i = 0; i < Samples; i++)
+            {
+                var task = taskFactory.StartNew((() =>
+                {
+                    var sum = Matrix4x4.Identity;
+            
+                    for (int x = 0; x < Iterations; x++)
+                    {
+                        sum *= Matrix4x4.Identity;
+                    }
+                }));
+                taskList.Add(task);
+            }
+
+            Task.WaitAll(taskList.ToArray());
+            Console.WriteLine($"Tasks {(DateTime.Now - startTime).TotalMilliseconds} ms");
+//            var createInfo = new EngineWindowCreateInfo()
+//            {
+//                PreferredBackend = GraphicsBackend.OpenGL
+//            };
+//            var myWindow = new MyWindow(createInfo);
+//            myWindow.Run();
+        }
+    }
+
+    public class MyJob : Job
+    {
+        public MyJob(JobManager jobManager) : base(jobManager)
+        {
+        }
+
+        public override void Execute()
+        {
+            var sum = Matrix4x4.Identity;
+            
+            for (int i = 0; i < Program.Iterations; i++)
+            {
+                sum *= Matrix4x4.Identity;
+            }
+        }
+
+        public override List<Job> GetDependencies()
+        {
+            return null;
         }
     }
 

@@ -7,6 +7,7 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using Neptune.Core.Engine.Resources;
 using Neptune.Core.Shaders;
+using Neptune.JobSystem.Native;
 using Veldrid;
 using Veldrid.Sdl2;
 using Vulkan;
@@ -25,12 +26,9 @@ namespace Neptune.Core.Engine.Renderers
         private readonly ResourceManager _resourceManager;
         private ResourceFactory _resourceFactory;
         private Pipeline _pipeline;
-        private Shader _vertexShader;
-        private Shader _fragmentShader;
         private ResourceLayout _groupResourceLayout;
         private ResourceSet _groupResourceSet;
         private ResourceLayout _spriteResourceLayout;
-        private ResourceSet _spriteResourceSet;
 
         private DeviceBuffer _indexBuffer;
         private DeviceBuffer _projectionMatrixBuffer;
@@ -39,6 +37,7 @@ namespace Neptune.Core.Engine.Renderers
         private Matrix4x4 _projectionMatrix = Matrix4x4.Identity;
 
         private Dictionary<string, List<SpritePrimitive>> _groupedSprites;
+        private ResourceLink<Resources.Shader> _shader;
 
         public SpritePrimitiveRenderer(GraphicsDevice graphicsDevice, CommandList commandsList, Sdl2Window window, ResourceManager resourceManager)
         {
@@ -57,12 +56,9 @@ namespace Neptune.Core.Engine.Renderers
             _pipeline.Dispose();
             _indexBuffer.Dispose();
             _projectionMatrixBuffer.Dispose();
-            _vertexShader.Dispose();
-            _fragmentShader.Dispose();
             _groupResourceLayout.Dispose();
             _groupResourceSet.Dispose();
             _spriteResourceLayout.Dispose();
-            _spriteResourceSet.Dispose();
         }
 
         public void Add(SpritePrimitive primitive)
@@ -73,6 +69,14 @@ namespace Neptune.Core.Engine.Renderers
             }
 
             _groupedSprites[primitive.Texture.Hash].Add(primitive);
+        }
+
+        public void Remove(SpritePrimitive primitive)
+        {
+            if (_groupedSprites.ContainsKey(primitive.Texture.Hash))
+            {
+                _groupedSprites[primitive.Texture.Hash].Remove(primitive);
+            }
         }
 
         public void Render()
@@ -99,45 +103,52 @@ namespace Neptune.Core.Engine.Renderers
                 ));
                 _commandList.SetGraphicsResourceSet(1, _groupResourceSet);
 
-                foreach (var sprite in _groupedSprites[key])
+                var group = _groupedSprites[key];
+                var groupDirty = group.Where(s => s.Dirty);
+
+                var groupTransforms = groupDirty.Select(s => s.NativeTransform).ToArray();
+                var matrices = groupDirty.Select(s => s.ModelMatrix).ToArray();
+                ParallelNative.CalculateMatrices(groupTransforms, matrices);
+
+                int index = 0;
+                foreach (var spritePrimitive in groupDirty)
                 {
-                    if (sprite.Dirty)
+                    var matrix = matrices[index];
+                    spritePrimitive.ModelMatrix = matrix;
+                    
+                    // Update the vertices
+                    var vertices = new List<VertexInfo>()
                     {
-                        // FROM: https://learnopengl.com/In-Practice/2D-Game/Rendering-Sprites
-                        var size = new Vector2(sprite.Size.X * sprite.Scale.X, sprite.Size.Y * sprite.Scale.Y);
-                        var modelMatrix = Matrix4x4.CreateScale(new Vector3(size, 1.0f));
-                        modelMatrix = modelMatrix * Matrix4x4.CreateTranslation(new Vector3(-sprite.Origin.X * size.X, -sprite.Origin.Y * size.Y, 0.0f));
-                        modelMatrix = modelMatrix * Matrix4x4.CreateRotationZ(sprite.Rotation);
-                        modelMatrix = modelMatrix * Matrix4x4.CreateTranslation(new Vector3(sprite.Position, 0));
-                        sprite.ModelMatrix = modelMatrix;
-
-                        // Update the vertices
-                        var vertices = new List<VertexInfo>()
-                    {
-                        new VertexInfo(new Vector2(0, 1), new Vector2(0, 1), sprite.Color),
-                        new VertexInfo(new Vector2(1, 1), new Vector2(1, 1), sprite.Color),
-                        new VertexInfo(new Vector2(0, 0), new Vector2(0, 0), sprite.Color),
-                        new VertexInfo(new Vector2(1, 0), new Vector2(1, 0), sprite.Color)
+                        new VertexInfo(new Vector2(0, 1), new Vector2(0, 1), spritePrimitive.Color),
+                        new VertexInfo(new Vector2(1, 1), new Vector2(1, 1), spritePrimitive.Color),
+                        new VertexInfo(new Vector2(0, 0), new Vector2(0, 0), spritePrimitive.Color),
+                        new VertexInfo(new Vector2(1, 0), new Vector2(1, 0), spritePrimitive.Color)
                     };
-                        sprite.Vertices = vertices;
+                    spritePrimitive.Vertices = vertices;
 
-                        _graphicsDevice.UpdateBuffer(sprite.VertexBuffer, 0, vertices.ToArray());
-                        _graphicsDevice.UpdateBuffer(sprite.ModelMatrixBuffer, 0, sprite.ModelMatrix);
-                        _graphicsDevice.UpdateBuffer(sprite.ZIndexBuffer, 0, sprite.ZIndex);
+                    _graphicsDevice.UpdateBuffer(spritePrimitive.VertexBuffer, 0, vertices.ToArray());
+                    _graphicsDevice.UpdateBuffer(spritePrimitive.ModelMatrixBuffer, 0, spritePrimitive.ModelMatrix);
+                    _graphicsDevice.UpdateBuffer(spritePrimitive.ZIndexBuffer, 0, spritePrimitive.ZIndex);
 
-                        sprite.Dirty = false;
-                    }
-
+                    spritePrimitive.Dirty = false;
+                    index = index + 1;
+                }
+                
+                foreach (var sprite in group)
+                {
                     _commandList.SetVertexBuffer(0, sprite.VertexBuffer);
                     _commandList.SetIndexBuffer(_indexBuffer, IndexFormat.UInt16);
 
                     // Update the resource set
-                    _spriteResourceSet = _resourceFactory.CreateResourceSet(new ResourceSetDescription(
-                        _spriteResourceLayout,
-                        sprite.ModelMatrixBuffer,
-                        sprite.ZIndexBuffer
-                    ));
-                    _commandList.SetGraphicsResourceSet(0, _spriteResourceSet);
+                    if (sprite.ResourceSet == null)
+                    {
+                        sprite.ResourceSet = _resourceFactory.CreateResourceSet(new ResourceSetDescription(
+                            _spriteResourceLayout,
+                            sprite.ModelMatrixBuffer,
+                            sprite.ZIndexBuffer
+                        ));
+                    }
+                    _commandList.SetGraphicsResourceSet(0, sprite.ResourceSet);
                     _commandList.DrawIndexed(
                         indexCount: 4,
                         instanceCount: 1,
@@ -146,8 +157,6 @@ namespace Neptune.Core.Engine.Renderers
                         instanceStart: 0);
                 }
             }
-
-            _groupedSprites.Clear();
         }
 
         private void InitializeResources()
@@ -167,7 +176,7 @@ namespace Neptune.Core.Engine.Renderers
                 new VertexElementDescription("Color", VertexElementSemantic.Color, VertexElementFormat.Float4)
             );
 
-            var shader = _resourceManager.LoadShader<SpriteShader>("SpriteShader");
+            _shader = _resourceManager.LoadShader<SpriteShader>("SpriteShader");
 
             var pipelineDescription = new GraphicsPipelineDescription
             {
@@ -194,7 +203,7 @@ namespace Neptune.Core.Engine.Renderers
             };
             pipelineDescription.ShaderSet = new ShaderSetDescription(
                 vertexLayouts: new VertexLayoutDescription[] {vertexLayout},
-                shaders: shader.Get().GetShaderSet());
+                shaders: _shader.Get().GetShaderSet());
 
             pipelineDescription.Outputs = _graphicsDevice.SwapchainFramebuffer.OutputDescription;
             _pipeline = _resourceFactory.CreateGraphicsPipeline(pipelineDescription);

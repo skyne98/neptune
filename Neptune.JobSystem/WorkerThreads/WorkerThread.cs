@@ -8,20 +8,38 @@ namespace Neptune.JobSystem.WorkerThreads
 {
     public class WorkerThread
     {
-        private readonly JobManager _jobManager;
+        private JobManager _jobManager;
         private Thread _thread;
-        private List<Job> _jobs;
-        private Mutex _jobsMutex;
-        private bool _executingJob = false;
+        private WorkerThreadStatus _status = WorkerThreadStatus.Idle;
+        private ReaderWriterLockSlim _statusMutex;
+
+        public WorkerThreadStatus Status
+        {
+            get
+            {
+                _statusMutex.EnterReadLock();
+                var value = _status;
+                _statusMutex.ExitReadLock();
+                return value;
+            }
+            private set
+            {
+                _statusMutex.EnterWriteLock();
+                _status = value;
+                _statusMutex.ExitWriteLock();
+            }
+        }
 
         public WorkerThread(JobManager jobManager)
         {
             _jobManager = jobManager;
-            _jobsMutex = new Mutex();
-            _jobs = new List<Job>();
+
+            _statusMutex = new ReaderWriterLockSlim();
+
             _thread = new Thread(Run);
+            _thread.Name = "Job Worker Thread";
+            _thread.Priority = ThreadPriority.Normal;
             _thread.IsBackground = true;
-            _thread.Priority = ThreadPriority.AboveNormal;
             _thread.Start();
         }
 
@@ -29,59 +47,35 @@ namespace Neptune.JobSystem.WorkerThreads
         {
             while (true)
             {
-                var job = Steal();
-
-                if (job == null)
+                if (_jobManager.Paused)
                 {
-                    job = _jobManager.Steal(this);
+                    Thread.Sleep(1);
                 }
-
-                if (job != null)
+                else
                 {
-                    _executingJob = true;
-                    job.Execute();
-                    job.State = JobState.Done;
-
-                    foreach (var continuation in job.Continuations)
+                    var job = _jobManager.Steal();
+                    if (job != null)
                     {
-                        continuation.Schedule();
-                    }
+                        // We have got a job
+                        Status = WorkerThreadStatus.Working;
+                        job.Execute();
+                        job.Status = JobStatus.Done;
+                        Status = WorkerThreadStatus.Idle;
 
-                    _executingJob = false;
+                        // Job was executed, try to schedule it's dependents
+                        foreach (var jobDependant in job.Dependants)
+                        {
+                            jobDependant.Schedule(_jobManager);
+                        }
+                    }
                 }
             }
         }
+    }
 
-        public bool IsIdle()
-        {
-            var result = true;
-            
-            _jobsMutex.WaitOne();
-            if (_jobs.Count > 0 || _executingJob)
-                result = false;
-            _jobsMutex.ReleaseMutex();
-
-            return result;
-        }
-        
-        public void Push(Job job)
-        {
-            _jobsMutex.WaitOne();
-            _jobs.Add(job);
-            _jobsMutex.ReleaseMutex();
-        }
-
-        public Job Steal()
-        {
-            _jobsMutex.WaitOne();
-            if (_thread == null)
-                return null;
-            
-            var job = _jobs.FirstOrDefault();
-            _jobs.Remove(job);
-            _jobsMutex.ReleaseMutex();
-
-            return job;
-        }
+    public enum WorkerThreadStatus
+    {
+        Idle,
+        Working
     }
 }

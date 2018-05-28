@@ -68,6 +68,16 @@ namespace Neptune.Core.Engine.Renderers
             }
         }
 
+        public void Remove(IRenderingPrimitive renderingPrimitive)
+        {
+            switch (renderingPrimitive)
+            {
+                case SpritePrimitive sprite:
+                    _spritePrimitiveRenderer.Remove(sprite);
+                    break;
+            }
+        }
+
         public void Render(ImGuiRenderer imGuiRenderer)
         {
             var frameTime = DateTime.Now - _lastFrame;
@@ -85,7 +95,7 @@ namespace Neptune.Core.Engine.Renderers
             _commandList.SetFramebuffer(_graphicsDevice.SwapchainFramebuffer);
             _commandList.SetFullViewports();
             _commandList.ClearColorTarget(0, RgbaFloat.Black);
-            _commandList.ClearDepthStencil(float.MaxValue);
+            _commandList.ClearDepthStencil(1f);
 
             _spritePrimitiveRenderer.Render();
             imGuiRenderer.Render(_graphicsDevice, _commandList);
@@ -105,7 +115,6 @@ namespace Neptune.Core.Engine.Renderers
             _spritePrimitiveRenderer?.Dispose();
             
             _graphicsDevice?.Dispose();
-            _commandList?.Dispose();
         }
     }
 }

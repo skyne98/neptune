@@ -18,15 +18,15 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
-    <PackageReference Include="MathNet.Numerics" Version="4.4.0" />
-    <PackageReference Include="ShaderGen" Version="1.2.0-beta2" />
-    <PackageReference Include="ShaderGen.Build" Version="1.2.0-beta2" />
-    <PackageReference Include="ShaderGen.Primitives" Version="1.2.0-beta2" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0003" />
-    <PackageReference Include="Veldrid" Version="4.2.0" />
-    <PackageReference Include="Veldrid.ImGui" Version="4.2.0" />
-    <PackageReference Include="Veldrid.SDL2" Version="4.2.0" />
-    <PackageReference Include="Veldrid.StartupUtilities" Version="4.2.0" />
+    <PackageReference Include="ShaderGen" Version="1.2.101-beta2-g2d6117214c" />
+    <PackageReference Include="ShaderGen.Build" Version="1.2.101-beta2-g2d6117214c" />
+    <PackageReference Include="ShaderGen.Primitives" Version="1.2.101-beta2-g2d6117214c" />
+    <PackageReference Include="SharpShaderCompiler" Version="1.0.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0004" />
+    <PackageReference Include="Veldrid" Version="4.3.0-ge20c8fe3de" />
+    <PackageReference Include="Veldrid.ImGui" Version="4.3.0-ge20c8fe3de" />
+    <PackageReference Include="Veldrid.SDL2" Version="4.3.0-ge20c8fe3de" />
+    <PackageReference Include="Veldrid.StartupUtilities" Version="4.3.0-ge20c8fe3de" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\doge.jpg">
@@ -38,6 +38,9 @@
     <None Update="cimgui.so">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Neptune.JobSystem\Neptune.JobSystem.csproj" />
   </ItemGroup>
   <Target Name="IncludeGeneratedShaderEmbeddedResource" AfterTargets="AssignTargetPaths" Condition="'$(ShaderOutputPath)' != ''">
     <ItemGroup>

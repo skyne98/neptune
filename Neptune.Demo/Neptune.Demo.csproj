@@ -2,6 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -9,6 +10,11 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-26526-01" />
+    <PackageReference Include="runtime.linux-x64.Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-26526-01" />
+    <PackageReference Include="runtime.win-x64.Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-26526-01" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptune.Core\Neptune.Core.csproj" />
     <ProjectReference Include="..\Neptune.JobSystem\Neptune.JobSystem.csproj" />

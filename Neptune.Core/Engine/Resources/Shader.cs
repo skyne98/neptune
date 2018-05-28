@@ -2,7 +2,9 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Text;
 using Neptune.Core.Shaders;
+using SharpShaderCompiler;
 using Veldrid;
 
 namespace Neptune.Core.Engine.Resources
@@ -49,7 +51,32 @@ namespace Neptune.Core.Engine.Resources
         {
             string name = $"{set}-{stage.ToString().ToLower()}.{GetExtension(factory.BackendType)}";
             var assetBytes = ReadEmbeddedAssetBytes(name);
-            
+
+            if (factory.BackendType == GraphicsBackend.Vulkan)
+            {
+                //Create a new compiler and new options
+                var c = new ShaderCompiler();
+                var o = new CompileOptions();
+
+                //Set our compile options
+                o.Language = CompileOptions.InputLanguage.GLSL;
+                o.Optimization = CompileOptions.OptimizationLevel.Performance;
+
+                //Compile the specified vertex shader and give it a name
+                var r = c.Compile(Encoding.UTF8.GetString(assetBytes), stage == ShaderStages.Vertex ? ShaderCompiler.Stage.Vertex : ShaderCompiler.Stage.Fragment, o, stage == ShaderStages.Vertex ? "VS" : "PS");
+
+                //Check if we had any compilation errors
+                if (r.CompileStatus != CompileResult.Status.Success)
+                {
+                    //Write the error out
+                    System.Console.WriteLine(r.ErrorMessage);
+                    throw new Exception("Cannot compile Vulkan shader");
+                }
+
+                //Get the produced SPV bytecode
+                assetBytes = r.GetBytes();
+            }
+
             var hash = "";
             using (var sha = SHA256Managed.Create())
             {
@@ -95,7 +122,7 @@ namespace Neptune.Core.Engine.Resources
             return (backendType == GraphicsBackend.Direct3D11)
                 ? "hlsl.bytes"
                 : (backendType == GraphicsBackend.Vulkan)
-                    ? "450.glsl.spv"
+                    ? "450.glsl"
                     : (backendType == GraphicsBackend.Metal)
                         ? isMacOS ? "metallib" : "ios.metallib"
                         : (backendType == GraphicsBackend.OpenGL)

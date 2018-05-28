@@ -33,7 +33,12 @@ namespace Neptune.Core.Engine.Resources
         public static Texture FromFile(string path, GraphicsDevice graphicsDevice, ResourceFactory resourceFactory)
         {
             var executablePath = System.Reflection.Assembly.GetEntryAssembly().Location;
-            path = Path.Combine(Path.GetDirectoryName(executablePath), path);
+            if (String.IsNullOrEmpty(executablePath))
+                executablePath = AppDomain.CurrentDomain.BaseDirectory;
+            if (String.IsNullOrEmpty(executablePath))
+                throw new Exception("Executable path cannot be null or empty");
+            var executableDirectory = Path.GetDirectoryName(executablePath);
+            path = Path.Combine(executableDirectory, path);
             Console.WriteLine($"Loading texture at {path}");
             if (File.Exists(path))
             {

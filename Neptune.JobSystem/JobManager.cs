@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -9,24 +10,38 @@ namespace Neptune.JobSystem
 {
     public class JobManager
     {
-        private readonly int _coresCount;
-        private readonly List<WorkerThread> _workerThreads;
-        private readonly int _workerThreadsCount;
-        private readonly Mutex _threadsMutex;
-        private readonly Random _random;
+        private ConcurrentQueue<RecurrentJob> _jobsQueue;
+        private List<WorkerThread> _workerThreads;
+        internal bool _paused = false;
+        internal ReaderWriterLockSlim _pausedLock;
+
+        public bool Paused
+        {
+            get {
+                _pausedLock.EnterReadLock();
+                var value = _paused;
+                _pausedLock.ExitReadLock();
+                return value;
+            }
+            private set
+            {
+                _pausedLock.EnterWriteLock();
+                _paused = value;
+                _pausedLock.ExitWriteLock();
+            }
+        }
 
         public JobManager()
         {
-            _threadsMutex = new Mutex();
-            _random = new Random();
-            
-            _coresCount = Environment.ProcessorCount;
-            _workerThreadsCount = _coresCount - 1;
-            if (_workerThreadsCount < 1)
-                _workerThreadsCount = 1;
-            
+            _jobsQueue = new ConcurrentQueue<RecurrentJob>();
             _workerThreads = new List<WorkerThread>();
-            for (var i = 0; i < _workerThreadsCount; i++)
+            _pausedLock = new ReaderWriterLockSlim();
+
+            var count = Environment.ProcessorCount - 1;
+            if (count < 1)
+                count = 1;
+
+            for (int i = 0; i < count; i++)
             {
                 var workerThread = new WorkerThread(this);
                 _workerThreads.Add(workerThread);
@@ -37,41 +52,75 @@ namespace Neptune.JobSystem
         {
             while (true)
             {
-                var idle = true;
+                var canBreak = _jobsQueue.Count == 0;
                 foreach (var workerThread in _workerThreads)
                 {
-                    var threadIdle = workerThread.IsIdle();
-
-                    if (threadIdle == false)
-                        idle = false;
+                    if (workerThread.Status == WorkerThreadStatus.Working)
+                    {
+                        canBreak = false;
+                    }
                 }
 
-                if (idle)
+                if (canBreak)
                     break;
             }
         }
 
-        public void Push(Job job)
+        internal RecurrentJob Steal()
         {
-            int index = _random.Next(0, _workerThreadsCount);
-            _workerThreads[index].Push(job);
-        }
-
-        internal Job Steal(WorkerThread exclude)
-        {
-            _threadsMutex.WaitOne();
-            if (_workerThreadsCount == 1)
-            {
-                _threadsMutex.ReleaseMutex();
-                return null;
-            }
-            
-            int index = _random.Next(0, _workerThreadsCount - 1);
-            var thread = _workerThreads.Except(new List<WorkerThread>() {exclude}).ElementAt(index);
-            var job = thread.Steal();            
-            _threadsMutex.ReleaseMutex();
+            RecurrentJob job = null;
+            _jobsQueue.TryDequeue(out job);
 
             return job;
+        }
+
+        public void Reset()
+        {
+            PauseAll();
+            while (_jobsQueue.Count > 0)
+            {
+                RecurrentJob job = null;
+                while (!_jobsQueue.TryDequeue(out job))
+                {
+                    // Just wait for the job to finally dequeue
+                }
+            }
+            StartAll();
+        }
+
+        public void PauseAll()
+        {
+            Paused = true;
+        }
+
+        public void StartAll()
+        {
+            Paused = false;
+        }
+
+        public void Schedule(RecurrentJob job)
+        {
+            // If the job was already scheduled somewhere, dont't schedule
+            if (job.Status != JobStatus.NotScheduled)
+            {
+                return;
+            }
+
+            // If the job has any unfinished dependencies, make it wait for them
+            var dependencies = job.GetDependencies();
+            var someNotFinished = dependencies.Any(d => d.Status != JobStatus.Done);
+            if (someNotFinished)
+            {
+                foreach (var dependencyJob in dependencies.Where(d => d.Status != JobStatus.Done))
+                {
+                    dependencyJob.AddDependant(job);
+                }
+                return;
+            }
+
+            // If the job is free to schedule, do it
+            job.Status = JobStatus.Scheduled;
+            _jobsQueue.Enqueue(job);
         }
     }
 }

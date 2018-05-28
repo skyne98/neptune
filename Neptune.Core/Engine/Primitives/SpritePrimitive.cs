@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using Neptune.Core.Engine.Resources;
+using Neptune.JobSystem.Native;
 using Veldrid;
 using Texture = Neptune.Core.Engine.Resources.Texture;
 
@@ -13,11 +14,13 @@ namespace Neptune.Core.Engine.Primitives
         private ResourceLink<Texture> _texture;
         private Vector2 _size = new Vector2(500f, 500f);
         private Vector2 _position = new Vector2(0f, 0f);
-        private float _zIndex = 0f;
+        private float _zIndex;
         private Vector2 _scale = Vector2.One;
-        private float _rotation = 0f;
+        private float _rotation;
         private Vector2 _origin = Vector2.Zero;
         private RgbaFloat _color = RgbaFloat.White;
+        private ParallelNative.TransformNative _nativeTransform;
+        private ResourceSet _resourceSet;
 
         public SpritePrimitive(ResourceLink<Texture> texture, GraphicsDevice graphicsDevice)
         {
@@ -26,6 +29,7 @@ namespace Neptune.Core.Engine.Primitives
             {
                 UpdateTexture(newResource);
             };
+            _modelMatrix = Matrix4x4.Identity;
             _vertexBuffer = graphicsDevice.ResourceFactory.CreateBuffer(new BufferDescription(4 * VertexInfo.SizeInBytes,
                 BufferUsage.VertexBuffer));
             _modelMatrixBuffer = graphicsDevice.ResourceFactory.CreateBuffer(
@@ -38,7 +42,7 @@ namespace Neptune.Core.Engine.Primitives
 
         private void UpdateTexture(Texture newTexture)
         {
-            _size = _texture.Get().Size;
+            Size = _texture.Get().Size;
             _dirty = true;
         }
 
@@ -56,6 +60,8 @@ namespace Neptune.Core.Engine.Primitives
             {
                 _size = value;
                 _dirty = true;
+                _nativeTransform.SizeX = _size.X * _scale.X;
+                _nativeTransform.SizeY = _size.Y * _scale.Y;
             }
         }
 
@@ -66,6 +72,8 @@ namespace Neptune.Core.Engine.Primitives
             {
                 _position = value;
                 _dirty = true;
+                _nativeTransform.X = _position.X;
+                _nativeTransform.Y = _position.Y;
             }
         }
 
@@ -86,6 +94,8 @@ namespace Neptune.Core.Engine.Primitives
             {
                 _scale = value;
                 _dirty = true;
+                _nativeTransform.SizeX = _size.X * _scale.X;
+                _nativeTransform.SizeY = _size.Y * _scale.Y;
             }
         }
 
@@ -96,6 +106,7 @@ namespace Neptune.Core.Engine.Primitives
             {
                 _rotation = value;
                 _dirty = true;
+                _nativeTransform.Rotation = _rotation;
             }
         }
 
@@ -106,6 +117,8 @@ namespace Neptune.Core.Engine.Primitives
             {
                 _origin = value;
                 _dirty = true;
+                _nativeTransform.OriginY = _origin.Y;
+                _nativeTransform.OriginX = _origin.X;
             }
         }
 
@@ -169,6 +182,18 @@ namespace Neptune.Core.Engine.Primitives
         {
             get => _zIndexBuffer;
             set => _zIndexBuffer = value;
+        }
+
+        public ParallelNative.TransformNative NativeTransform
+        {
+            get { return _nativeTransform; }
+            set { _nativeTransform = value; }
+        }
+
+        public ResourceSet ResourceSet
+        {
+            get { return _resourceSet; }
+            set { _resourceSet = value; }
         }
     }
 }

@@ -161,7 +161,7 @@ namespace Neptune.Demo
         public MyWindow(EngineWindowCreateInfo createInfo) : base(createInfo)
         {
             // Resources
-            ResourceManager.LoadTexture("Assets/doge.jpg", "Doge");
+            var doge = ResourceManager.LoadTexture("Assets/doge.jpg", "Doge");
         }
 
         public unsafe override void Loop(EngineLoopInfo loopInfo)
@@ -191,7 +191,7 @@ namespace Neptune.Demo
                             // Sprites
                             var random = new Random();
                             var next = random.NextDouble();
-                            var sprite = new SpritePrimitive(doge, GraphicsDevice)
+                            var sprite = new SpritePrimitive(doge)
                             {
                                 Position = new Vector2((float)random.NextDouble() * 200, (float)random.NextDouble() * 300)
                             };

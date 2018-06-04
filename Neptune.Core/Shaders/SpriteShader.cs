@@ -12,8 +12,16 @@ namespace Neptune.Core.Shaders
     {
         public struct VertexInput
         {
+            // Per vertex
             [PositionSemantic] public Vector2 Position;
             [TextureCoordinateSemantic] public Vector2 UV;
+
+            // Per instance
+            [TextureCoordinateSemantic] public Vector4 TransformColumn0;
+            [TextureCoordinateSemantic] public Vector4 TransformColumn1;
+            [TextureCoordinateSemantic] public Vector4 TransformColumn2;
+            [TextureCoordinateSemantic] public Vector4 TransformColumn3;
+            [TextureCoordinateSemantic] public float ZIndex;
             [ColorSemantic] public Vector4 Color;
         }
 
@@ -23,11 +31,11 @@ namespace Neptune.Core.Shaders
             [TextureCoordinateSemantic] public Vector2 UV;
             [ColorSemantic] public Vector4 Color;
         }
-        
-        [ResourceSet(0)] public Matrix4x4 Model;
-        [ResourceSet(0)] public float ZIndex;
 
-        [ResourceSet(1)] public Matrix4x4 Projection;
+        // Camera resource set
+        [ResourceSet(0)] public Matrix4x4 Projection;
+
+        // Group resource set
         [ResourceSet(1)] public Texture2DResource Texture;
         [ResourceSet(1)] public SamplerResource Sampler;
 
@@ -36,8 +44,15 @@ namespace Neptune.Core.Shaders
         {
             PixelInput output;
             
-            output.Position = Vector4.Transform(input.Position, Projection * Model);
-            output.Position.Z = ZIndex;
+            var model = new Matrix4x4(
+                input.TransformColumn0.X, input.TransformColumn1.X, input.TransformColumn2.X, input.TransformColumn3.X,
+                input.TransformColumn0.Y, input.TransformColumn1.Y, input.TransformColumn2.Y, input.TransformColumn3.Y,
+                input.TransformColumn0.Z, input.TransformColumn1.Z, input.TransformColumn2.Z, input.TransformColumn3.Z,
+                input.TransformColumn0.W, input.TransformColumn1.W, input.TransformColumn2.W, input.TransformColumn3.W
+            );      
+
+            output.Position = Vector4.Transform(input.Position, Projection * model);
+            output.Position.Z = input.ZIndex;
             output.UV = input.UV;
             output.Color = input.Color;
 

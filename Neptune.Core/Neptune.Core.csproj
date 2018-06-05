@@ -18,15 +18,15 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
-    <PackageReference Include="ShaderGen" Version="1.2.101-beta2-g2d6117214c" />
-    <PackageReference Include="ShaderGen.Build" Version="1.2.101-beta2-g2d6117214c" />
-    <PackageReference Include="ShaderGen.Primitives" Version="1.2.101-beta2-g2d6117214c" />
+    <PackageReference Include="ShaderGen" Version="1.2.155-beta2-g562791ab55" />
+    <PackageReference Include="ShaderGen.Build" Version="1.2.155-beta2-g562791ab55" />
+    <PackageReference Include="ShaderGen.Primitives" Version="1.2.155-beta2-g562791ab55" />
     <PackageReference Include="SharpShaderCompiler" Version="1.0.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0004" />
-    <PackageReference Include="Veldrid" Version="4.3.0-ge20c8fe3de" />
-    <PackageReference Include="Veldrid.ImGui" Version="4.3.0-ge20c8fe3de" />
-    <PackageReference Include="Veldrid.SDL2" Version="4.3.0-ge20c8fe3de" />
-    <PackageReference Include="Veldrid.StartupUtilities" Version="4.3.0-ge20c8fe3de" />
+    <PackageReference Include="Veldrid" Version="4.3.0-beta1-0039-g114abeea4d" />
+    <PackageReference Include="Veldrid.ImGui" Version="4.3.0-beta1-0039-g114abeea4d" />
+    <PackageReference Include="Veldrid.SDL2" Version="4.3.0-beta1-0039-g114abeea4d" />
+    <PackageReference Include="Veldrid.StartupUtilities" Version="4.3.0-beta1-0039-g114abeea4d" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\doge.jpg">

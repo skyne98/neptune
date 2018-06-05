@@ -41,9 +41,11 @@ namespace Neptune.Core.Engine.Renderers
         private Dictionary<string, List<SpritePrimitive>> _groupSprites;
         private Dictionary<string, ResourceLink<Texture>> _groupTextures;
         private Dictionary<string, ResourceSet> _groupResourceSets;
-        private Dictionary<string, bool> _groupDirty;
+        private Dictionary<string, bool> _groupInfoDirty;
+        private Dictionary<string, bool> _groupMatricesDirty;
         private Dictionary<string, InstanceInfo[]> _groupInstanceInfos;
         private Dictionary<string, DeviceBuffer> _groupInstanceInfoBuffers;
+        private Dictionary<string, DeviceBuffer> _groupMatrixBuffers;
 
         private List<SpritePrimitive> _dirtySprites;
 
@@ -60,9 +62,11 @@ namespace Neptune.Core.Engine.Renderers
             _groupSprites = new Dictionary<string, List<SpritePrimitive>>();
             _groupTextures = new Dictionary<string, ResourceLink<Texture>>();
             _groupResourceSets = new Dictionary<string, ResourceSet>();
-            _groupDirty = new Dictionary<string, bool>();
+            _groupInfoDirty = new Dictionary<string, bool>();
+            _groupMatricesDirty = new Dictionary<string, bool>();
             _groupInstanceInfos = new Dictionary<string, InstanceInfo[]>();
             _groupInstanceInfoBuffers = new Dictionary<string, DeviceBuffer>();
+            _groupMatrixBuffers = new Dictionary<string, DeviceBuffer>();
 
             _dirtySprites = new List<SpritePrimitive>();
 
@@ -99,11 +103,8 @@ namespace Neptune.Core.Engine.Renderers
             VertexLayoutDescription instanceVertexLayout = new VertexLayoutDescription(
                 new VertexElementDescription[]
                 {
-                    new VertexElementDescription("TransformColumn0", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float4),
-                    new VertexElementDescription("TransformColumn1", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float4),
-                    new VertexElementDescription("TransformColumn2", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float4),
-                    new VertexElementDescription("TransformColumn3", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float4),
                     new VertexElementDescription("ZIndex", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float1),
+                    new VertexElementDescription("MatrixIndex", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Int1), 
                     new VertexElementDescription("Color", VertexElementSemantic.Color, VertexElementFormat.Float4) 
                 }
             );
@@ -129,7 +130,8 @@ namespace Neptune.Core.Engine.Renderers
 
             _groupResourceLayout = _resourceFactory.CreateResourceLayout(new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription("Texture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
-                new ResourceLayoutElementDescription("Sampler", ResourceKind.Sampler, ShaderStages.Fragment)
+                new ResourceLayoutElementDescription("Sampler", ResourceKind.Sampler, ShaderStages.Fragment),
+                new ResourceLayoutElementDescription("ModelMatrices", ResourceKind.StructuredBufferReadOnly, ShaderStages.Vertex)
             ));
 
             pipelineDescription.ResourceLayouts = new[]
@@ -159,20 +161,32 @@ namespace Neptune.Core.Engine.Renderers
             if (_groupSprites.ContainsKey(primitive.Texture.Hash) == false)
             {
                 // Create a new group
+                var matrixBufferDescription = new BufferDescription(64 * 1000000,
+                    BufferUsage.StructuredBufferReadOnly | BufferUsage.Dynamic);
+                matrixBufferDescription.StructureByteStride = 64;
+                var matrixBuffer = _resourceFactory.CreateBuffer(matrixBufferDescription);
+                _groupMatrixBuffers.Add(primitive.Texture.Hash, matrixBuffer);
                 _groupSprites.Add(primitive.Texture.Hash, new List<SpritePrimitive>());
                 _groupTextures.Add(primitive.Texture.Hash, primitive.TextureLink);
-                _groupResourceSets.Add(primitive.Texture.Hash, _resourceFactory.CreateResourceSet(new ResourceSetDescription(
-                    _groupResourceLayout,
-                    _groupTextures[primitive.Texture.Hash].Get().TextureView,
-                    _graphicsDevice.PointSampler
-                )));
-                _groupDirty.Add(primitive.Texture.Hash, true);
+                _groupResourceSets.Add(primitive.Texture.Hash, _resourceFactory.CreateResourceSet(
+                    new ResourceSetDescription(
+                        _groupResourceLayout,
+                        _groupTextures[primitive.Texture.Hash].Get().TextureView,
+                        _graphicsDevice.PointSampler,
+                        matrixBuffer
+                    )));
+                _groupInfoDirty.Add(primitive.Texture.Hash, true);
+                _groupMatricesDirty.Add(primitive.Texture.Hash, true);
                 _groupInstanceInfos.Add(primitive.Texture.Hash, null);
-                _groupInstanceInfoBuffers.Add(primitive.Texture.Hash, 
-                    _resourceFactory.CreateBuffer(new BufferDescription(2000000 * InstanceInfo.SizeInBytes, BufferUsage.VertexBuffer)));
+                _groupInstanceInfoBuffers.Add(primitive.Texture.Hash,
+                    _resourceFactory.CreateBuffer(new BufferDescription(2000000 * InstanceInfo.SizeInBytes,
+                        BufferUsage.VertexBuffer)));
             }
 
             _groupSprites[primitive.Texture.Hash].Add(primitive);
+            _groupInfoDirty[primitive.Texture.Hash] = true;
+            
+            AddDirty(primitive);
             primitive._spritePrimitiveRenderer = this;
         }
 
@@ -181,7 +195,7 @@ namespace Neptune.Core.Engine.Renderers
             if (_groupSprites.ContainsKey(primitive.Texture.Hash))
             {
                 _groupSprites[primitive.Texture.Hash].Remove(primitive);
-                _groupDirty[primitive.Texture.Hash] = true;
+                _groupInfoDirty[primitive.Texture.Hash] = true;
                 primitive._spritePrimitiveRenderer = null;
             }
         }
@@ -195,6 +209,8 @@ namespace Neptune.Core.Engine.Renderers
         {
             if (_dirtySprites.Count > 0)
             {
+                // Update the matrices
+                Console.WriteLine($"Processing {_dirtySprites.Count} dirty sprites");
                 var transforms = _dirtySprites.Select(s => s.NativeTransform).ToArray();
                 var matrices = _dirtySprites.Select(s => s.ModelMatrix).ToArray();
                 ParallelNative.CalculateMatrices(transforms, matrices);
@@ -205,11 +221,10 @@ namespace Neptune.Core.Engine.Renderers
                     var matrix = matrices[index];
                     spritePrimitive.ModelMatrix = matrix;
 
-                    _groupDirty[spritePrimitive.Texture.Hash] = true;
+                    _groupMatricesDirty[spritePrimitive.Texture.Hash] = true;
                     spritePrimitive._dirty = false;
                     index = index + 1;
                 }
-
                 _dirtySprites.Clear();
             }
         }
@@ -218,40 +233,31 @@ namespace Neptune.Core.Engine.Renderers
         {
             foreach (var groupSpritesKey in _groupSprites.Keys)
             {
-                if (_groupDirty[groupSpritesKey])
+                if (_groupInfoDirty[groupSpritesKey])
                 {
-                    _groupInstanceInfos[groupSpritesKey] = _groupSprites[groupSpritesKey].Select(s =>
+                    // Update the instance infos
+                    var index = 0;
+                    var newInfos = _groupSprites[groupSpritesKey].Select(s =>
                     {
-                        return new InstanceInfo(
-                            new Vector4(
-                                s.ModelMatrix.M11,
-                                s.ModelMatrix.M21,
-                                s.ModelMatrix.M31,
-                                s.ModelMatrix.M41
-                            ),
-                            new Vector4(
-                                s.ModelMatrix.M12,
-                                s.ModelMatrix.M22,
-                                s.ModelMatrix.M32,
-                                s.ModelMatrix.M42
-                            ),
-                            new Vector4(
-                                s.ModelMatrix.M13,
-                                s.ModelMatrix.M23,
-                                s.ModelMatrix.M33,
-                                s.ModelMatrix.M43
-                            ),
-                            new Vector4(
-                                s.ModelMatrix.M14,
-                                s.ModelMatrix.M24,
-                                s.ModelMatrix.M34,
-                                s.ModelMatrix.M44
-                            ),
+                        var info =  new InstanceInfo(
                             s.ZIndex,
+                            index,
                             s.Color
                         );
+
+                        index = index + 1;
+                        return info;
                     }).ToArray();
-                    _groupDirty[groupSpritesKey] = false;;
+                    _groupInstanceInfos[groupSpritesKey] = newInfos;
+                    _graphicsDevice.UpdateBuffer(_groupInstanceInfoBuffers[groupSpritesKey], 0, newInfos);
+                    _groupInfoDirty[groupSpritesKey] = false;
+                }
+
+                if (_groupMatricesDirty[groupSpritesKey])
+                {
+                    var groupMatrices = _groupSprites[groupSpritesKey].Select(s => s.ModelMatrix).ToArray();
+                    _graphicsDevice.UpdateBuffer(_groupMatrixBuffers[groupSpritesKey], 0, groupMatrices);
+                    _groupMatricesDirty[groupSpritesKey] = false;
                 }
             }
         }

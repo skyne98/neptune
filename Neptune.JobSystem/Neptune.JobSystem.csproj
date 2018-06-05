@@ -3,23 +3,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Neptune.JobSystem</PackageId>
   </PropertyGroup>
-  <Target Name="BuildRust" BeforeTargets="BeforeBuild">
-    <Exec Command="cargo build --release" WorkingDirectory="./Rust" ContinueOnError="false" />
-  </Target>
-  <ItemGroup>
-    <Content Include="./Rust/target/release/parallel.dll">
-      <PackagePath>runtimes/win-x64/native</PackagePath>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Link>parallel.dll</Link>
-      <Pack>true</Pack>
-    </Content>
-    <Content Include="./Rust/target/release/libparallel.so">
-      <PackagePath>runtimes/linux-x64/native</PackagePath>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Link>libparallel.so</Link>
-      <Pack>true</Pack>
-    </Content>
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0-rc1" />
     <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />

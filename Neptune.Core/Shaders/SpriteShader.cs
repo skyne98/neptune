@@ -12,8 +12,13 @@ namespace Neptune.Core.Shaders
     {
         public struct VertexInput
         {
+            // Per vertex
             [PositionSemantic] public Vector2 Position;
             [TextureCoordinateSemantic] public Vector2 UV;
+
+            // Per instance
+            [TextureCoordinateSemantic] public float ZIndex;
+            [TextureCoordinateSemantic] public int MatrixIndex;
             [ColorSemantic] public Vector4 Color;
         }
 
@@ -23,21 +28,23 @@ namespace Neptune.Core.Shaders
             [TextureCoordinateSemantic] public Vector2 UV;
             [ColorSemantic] public Vector4 Color;
         }
-        
-        [ResourceSet(0)] public Matrix4x4 Model;
-        [ResourceSet(0)] public float ZIndex;
 
-        [ResourceSet(1)] public Matrix4x4 Projection;
+        // Camera resource set
+        [ResourceSet(0)] public Matrix4x4 Projection;
+
+        // Group resource set
         [ResourceSet(1)] public Texture2DResource Texture;
         [ResourceSet(1)] public SamplerResource Sampler;
+        [ResourceSet(1)] public StructuredBuffer<Matrix4x4> ModelMatrices;
 
         [VertexShader]
         public PixelInput VS(VertexInput input)
         {
             PixelInput output;
-            
-            output.Position = Vector4.Transform(input.Position, Projection * Model);
-            output.Position.Z = ZIndex;
+            var model = ModelMatrices[input.MatrixIndex];
+
+            output.Position = Vector4.Transform(input.Position, Projection * model);
+            output.Position.Z = input.ZIndex;
             output.UV = input.UV;
             output.Color = input.Color;
 

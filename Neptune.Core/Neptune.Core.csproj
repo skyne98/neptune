@@ -29,11 +29,14 @@
     <PackageReference Include="Veldrid.StartupUtilities" Version="4.3.0-beta1-0039-g114abeea4d" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Assets\doge.jpg">
+    <None Update="Assets\Doge.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\MissingTexture.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Rabbit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="cimgui.so">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

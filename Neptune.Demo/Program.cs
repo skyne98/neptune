@@ -22,7 +22,7 @@ namespace Neptune.Demo
         {
             var createInfo = new EngineWindowCreateInfo()
             {
-                PreferredBackend = GraphicsBackend.Vulkan
+                PreferredBackend = GraphicsBackend.OpenGL
             };
             var myWindow = new MyWindow(createInfo);
             myWindow.Run();
@@ -161,7 +161,8 @@ namespace Neptune.Demo
         public MyWindow(EngineWindowCreateInfo createInfo) : base(createInfo)
         {
             // Resources
-            var doge = ResourceManager.LoadTexture("Assets/doge.jpg", "Doge");
+            ResourceManager.LoadTexture("Assets/Doge.jpg", "Doge");
+            ResourceManager.LoadTexture("Assets/Rabbit.png", "Bunny");
         }
 
         public unsafe override void Loop(EngineLoopInfo loopInfo)
@@ -177,23 +178,23 @@ namespace Neptune.Demo
                 if (ImGui.BeginMenu("Options"))
                 {
                     int min = 0;
-                    int max = 100000;
+                    int max = 1000000;
                     if (ImGui.SliderInt("Doges", ref doges, min, max, "Amount"))
                     {
                         Console.WriteLine($"You chose {doges} doges");
 
                         var toAdd = Math.Max(0, doges - sprites.Count);
                         Console.WriteLine($"Adding {toAdd}");
-                        var doge = ResourceManager.GetTexture("Doge");
+                        var texture = ResourceManager.GetTexture("Bunny");
 
                         for (int i = 0; i < toAdd; i++)
                         {
                             // Sprites
                             var random = new Random();
                             var next = random.NextDouble();
-                            var sprite = new SpritePrimitive(doge)
+                            var sprite = new SpritePrimitive(texture)
                             {
-                                Position = new Vector2((float)random.NextDouble() * 200, (float)random.NextDouble() * 300)
+                                Position = new Vector2((float)random.NextDouble() * 600, (float)random.NextDouble() * 600)
                             };
                             sprites.Add(sprite);
                             Add(sprite);
@@ -210,7 +211,7 @@ namespace Neptune.Demo
             //sprites[0].ZIndex = (float)Math.Max(0d, Math.Cos(loopInfo.GlobalTime));
             //sprites[0].Rotation += 15f * loopInfo.SecondsPerFrame;
             //sprites[1].Rotation += 30f * loopInfo.SecondsPerFrame;
-            Console.Title = Math.Max(0d, Math.Cos(loopInfo.GlobalTime)).ToString();
+            // Console.Title = Math.Max(0d, Math.Cos(loopInfo.GlobalTime)).ToString();
         }
 
         private unsafe int OnTextEdited(TextEditCallbackData* data)

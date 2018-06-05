@@ -116,7 +116,7 @@ namespace Neptune.Core.Engine.Renderers
             {
                 BlendState = BlendStateDescription.SingleAlphaBlend,
                 DepthStencilState = DepthStencilStateDescription.DepthOnlyLessEqual,
-                RasterizerState = RasterizerStateDescription.CullNone,
+                RasterizerState = RasterizerStateDescription.Default,
                 PrimitiveTopology = PrimitiveTopology.TriangleStrip
             };
 

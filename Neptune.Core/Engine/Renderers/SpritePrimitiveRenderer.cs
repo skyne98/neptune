@@ -112,11 +112,13 @@ namespace Neptune.Core.Engine.Renderers
 
             _shader = _resourceManager.LoadShader<SpriteShader>("SpriteShader");
 
+            var rasterizerState = RasterizerStateDescription.Default;
+            rasterizerState.DepthClipEnabled = false;
             var pipelineDescription = new GraphicsPipelineDescription
             {
                 BlendState = BlendStateDescription.SingleAlphaBlend,
                 DepthStencilState = DepthStencilStateDescription.DepthOnlyLessEqual,
-                RasterizerState = RasterizerStateDescription.Default,
+                RasterizerState = rasterizerState,
                 PrimitiveTopology = PrimitiveTopology.TriangleStrip
             };
 

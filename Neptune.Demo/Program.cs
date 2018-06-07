@@ -49,13 +49,11 @@ namespace Neptune.Demo
 
             if (ImGui.BeginMainMenuBar())
             {
-                ImGui.Text($"{loopInfo.FramesPerSecond} fps / {loopInfo.MillisecondsPerFrame} ms");
-
                 if (ImGui.BeginMenu("Options"))
                 {
                     int min = 0;
                     int max = 1000000;
-                    if (ImGui.SliderInt("Doges", ref doges, min, max, "Amount"))
+                    if (ImGui.SliderInt("Doges", ref doges, min, max, doges.ToString()))
                     {
                         Console.WriteLine($"You chose {doges} doges");
 
@@ -72,6 +70,7 @@ namespace Neptune.Demo
                             {
                                 Position = new Vector2((float)random.NextDouble() * 600, (float)random.NextDouble() * 600)
                             };
+                            //sprite.ZIndex = sprite.Position.X / 10000f;
                             sprites.Add(sprite);
                             Add(sprite);
                         }
@@ -79,16 +78,15 @@ namespace Neptune.Demo
 
                     ImGui.EndMenu();
                 }
-
+                ImGui.Separator();
+                ImGui.Text($"{loopInfo.FramesPerSecond} fps / {loopInfo.MillisecondsPerFrame} ms");
                 ImGui.EndMainMenuBar();
             }
-        }
 
-        private unsafe int OnTextEdited(TextEditCallbackData* data)
-        {
-            char currentEventChar = (char)data->EventChar;
-            Console.WriteLine($"Char: {currentEventChar} Stirng: {""}");
-            return 0;
+            foreach (var spritePrimitive in sprites)
+            {
+                spritePrimitive.Rotation += 30.0f * loopInfo.SecondsPerFrame;
+            }
         }
     }
 }

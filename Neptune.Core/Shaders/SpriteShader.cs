@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using ShaderGen;
 using SharpDX.Direct3D11;
 using Veldrid;
@@ -55,6 +56,9 @@ namespace Neptune.Core.Shaders
         public Vector4 PS(PixelInput input)
         {
             var textureColor = ShaderBuiltins.Sample(Texture, Sampler, input.UV);
+
+            if (ShaderGen.ShaderBuiltins.Abs(textureColor.W) < 0.1)
+                ShaderGen.ShaderBuiltins.Discard();
 
             textureColor *= input.Color;
 

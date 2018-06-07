@@ -106,7 +106,6 @@ namespace Neptune.Core.Engine.Renderers
             if (_window.Exists)
             {
                 _graphicsDevice.SwapBuffers();
-                _graphicsDevice.WaitForIdle();
             }
         }
 

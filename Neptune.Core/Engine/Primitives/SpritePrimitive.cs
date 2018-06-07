@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Numerics;
 using Neptune.Core.Engine.Renderers;
 using Neptune.Core.Engine.Resources;
+using Neptune.Core.Shaders;
 using Neptune.JobSystem.Native;
 using Veldrid;
 using Texture = Neptune.Core.Engine.Resources.Texture;
@@ -49,12 +50,12 @@ namespace Neptune.Core.Engine.Primitives
                 _dirty = true;
                 if (_spritePrimitiveRenderer != null)
                 {
-                    _spritePrimitiveRenderer.AddDirty(this);
+                    _spritePrimitiveRenderer.SetGroupDirty(_texture.Get().Hash);
                 }
             }
         }
         
-        private Matrix4x4 _modelMatrix;
+        private SpriteShader.TransformData _transformData;
 
         public Vector2 Size
         {
@@ -125,12 +126,12 @@ namespace Neptune.Core.Engine.Primitives
             }
         }
 
-        public Matrix4x4 ModelMatrix
+        public SpriteShader.TransformData TransformData
         {
-            get => _modelMatrix;
+            get => _transformData;
             set
             {
-                _modelMatrix = value;
+                _transformData = value;
             }
         }
 

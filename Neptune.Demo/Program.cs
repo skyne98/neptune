@@ -68,7 +68,8 @@ namespace Neptune.Demo
                             var next = random.NextDouble();
                             var sprite = new SpritePrimitive(texture)
                             {
-                                Position = new Vector2((float)random.NextDouble() * 600, (float)random.NextDouble() * 600)
+                                Position = new Vector2((float)random.NextDouble() * 600, (float)random.NextDouble() * 600),
+                                Origin = Vector2.One / 2
                             };
                             //sprite.ZIndex = sprite.Position.X / 10000f;
                             sprites.Add(sprite);
@@ -85,7 +86,7 @@ namespace Neptune.Demo
 
             foreach (var spritePrimitive in sprites)
             {
-                spritePrimitive.Rotation += 30.0f * loopInfo.SecondsPerFrame;
+                spritePrimitive.Rotation += 3.0f * loopInfo.SecondsPerFrame;
             }
         }
     }

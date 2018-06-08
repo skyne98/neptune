@@ -39,19 +39,22 @@ namespace Neptune.Core.Engine.Renderers
         private Vector2 _cameraPosition = Vector2.Zero;
         private Matrix4x4 _projectionMatrix = Matrix4x4.Identity;
 
-        private Dictionary<string, List<SpritePrimitive>> _groupSprites;
-        private Dictionary<string, ResourceLink<Texture>> _groupTextures;
-        private Dictionary<string, ResourceSet> _groupResourceSets;
-        private Dictionary<string, bool> _groupInfoDirty;
-        private Dictionary<string, bool> _groupTransformDirty;
-        private Dictionary<string, InstanceInfo[]> _groupInstanceInfos;
-        private Dictionary<string, DeviceBuffer> _groupInstanceInfoBuffers;
-        private Dictionary<string, DeviceBuffer> _groupTransformDataBuffers;
-        private Dictionary<string, SpriteShader.TransformData[]> _groupTransformDatas;
+        private Dictionary<long, List<SpritePrimitive>> _groupSprites;
+        private Dictionary<long, ResourceLink<Texture>> _groupTextures;
+        private Dictionary<long, ResourceSet> _groupResourceSets;
+        private Dictionary<long, bool> _groupInfoDirty;
+        private Dictionary<long, bool> _groupTransformDirty;
+        private Dictionary<long, InstanceInfo[]> _groupInstanceInfos;
+        private Dictionary<long, DeviceBuffer> _groupInstanceInfoBuffers;
+        private Dictionary<long, DeviceBuffer> _groupTransformDataBuffers;
+        private Dictionary<long, SpriteShader.TransformData[]> _groupTransformDatas;
 
         private List<SpritePrimitive> _dirtySprites;
 
         private ResourceLink<Resources.Shader> _shader;
+
+        // Unique index
+        private int _lastIndex = 0;
 
         public SpritePrimitiveRenderer(GraphicsDevice graphicsDevice, CommandList commandsList, Sdl2Window window, ResourceManager resourceManager)
         {
@@ -61,15 +64,15 @@ namespace Neptune.Core.Engine.Renderers
             _resourceManager = resourceManager;
             _resourceFactory = _graphicsDevice.ResourceFactory;
 
-            _groupSprites = new Dictionary<string, List<SpritePrimitive>>();
-            _groupTextures = new Dictionary<string, ResourceLink<Texture>>();
-            _groupResourceSets = new Dictionary<string, ResourceSet>();
-            _groupInfoDirty = new Dictionary<string, bool>();
-            _groupTransformDirty = new Dictionary<string, bool>();
-            _groupInstanceInfos = new Dictionary<string, InstanceInfo[]>();
-            _groupInstanceInfoBuffers = new Dictionary<string, DeviceBuffer>();
-            _groupTransformDataBuffers = new Dictionary<string, DeviceBuffer>();
-            _groupTransformDatas = new Dictionary<string, SpriteShader.TransformData[]>();
+            _groupSprites = new Dictionary<long, List<SpritePrimitive>>();
+            _groupTextures = new Dictionary<long, ResourceLink<Texture>>();
+            _groupResourceSets = new Dictionary<long, ResourceSet>();
+            _groupInfoDirty = new Dictionary<long, bool>();
+            _groupTransformDirty = new Dictionary<long, bool>();
+            _groupInstanceInfos = new Dictionary<long, InstanceInfo[]>();
+            _groupInstanceInfoBuffers = new Dictionary<long, DeviceBuffer>();
+            _groupTransformDataBuffers = new Dictionary<long, DeviceBuffer>();
+            _groupTransformDatas = new Dictionary<long, SpriteShader.TransformData[]>();
 
             InitializeResources();
         }
@@ -164,10 +167,10 @@ namespace Neptune.Core.Engine.Renderers
             if (_groupSprites.ContainsKey(primitive.Texture.Hash) == false)
             {
                 // Create a new group
-                var matrixBufferDescription = new BufferDescription(64 * 1000000,
+                var transformDataBufferDescription = new BufferDescription(32 * 1300000,
                     BufferUsage.StructuredBufferReadOnly | BufferUsage.Dynamic);
-                matrixBufferDescription.StructureByteStride = 64;
-                var transformDataBuffer = _resourceFactory.CreateBuffer(matrixBufferDescription);
+                transformDataBufferDescription.StructureByteStride = 32;
+                var transformDataBuffer = _resourceFactory.CreateBuffer(transformDataBufferDescription);
                 _groupTransformDataBuffers.Add(primitive.Texture.Hash, transformDataBuffer);
                 _groupSprites.Add(primitive.Texture.Hash, new List<SpritePrimitive>());
                 _groupTextures.Add(primitive.Texture.Hash, primitive.TextureLink);
@@ -203,7 +206,7 @@ namespace Neptune.Core.Engine.Renderers
             }
         }
 
-        public void SetGroupDirty(string group)
+        public void SetGroupDirty(long group)
         {
             if (_groupTransformDirty.ContainsKey(group))
             {
@@ -229,18 +232,21 @@ namespace Neptune.Core.Engine.Renderers
                         _groupTransformDatas[groupSpritesKey] = newArray;
                     }
 
-                    for (int i = 0; i < _groupSprites[groupSpritesKey].Count; i++)
+                    var writeMap = _graphicsDevice.Map<SpriteShader.TransformData>(_groupTransformDataBuffers[groupSpritesKey],
+                        MapMode.Write);
+                    var spritesGroup = _groupSprites[groupSpritesKey];
+                    var datas = _groupTransformDatas[groupSpritesKey];
+                    for (int i = 0; i < spritesGroup.Count; i++)
                     {
-                        var sprite = _groupSprites[groupSpritesKey][i];
-                        var datas = _groupTransformDatas[groupSpritesKey];
+                        var sprite = spritesGroup[i];
 
-                        datas[i].Position = new Vector3(sprite.Position, sprite.ZIndex);
-                        datas[i].Rotation = sprite.Rotation;
-                        datas[i].Size = sprite.Size;
-                        datas[i].Origin = sprite.Origin;
+                        writeMap[i].Position = new Vector3(sprite.Position, sprite.ZIndex);
+                        writeMap[i].Rotation = sprite.Rotation;
+                        writeMap[i].Size = sprite.Size;
+                        writeMap[i].Origin = sprite.Origin;
                     }
-
-                    _graphicsDevice.UpdateBuffer(_groupTransformDataBuffers[groupSpritesKey], 0, _groupTransformDatas[groupSpritesKey]);
+                    
+                    _graphicsDevice.Unmap(_groupTransformDataBuffers[groupSpritesKey]);
                 }
             }
         }

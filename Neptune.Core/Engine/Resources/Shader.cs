@@ -13,9 +13,9 @@ namespace Neptune.Core.Engine.Resources
     {
         private Veldrid.Shader _vertexShader;
         private Veldrid.Shader _fragmentShader;
-        private string _hash;
-        private string _vertexHash;
-        private string _fragmentHash;
+        private long _hash;
+        private long _vertexHash;
+        private long _fragmentHash;
         
         private Shader(Type t, GraphicsDevice graphicsDevice)
         {    
@@ -45,7 +45,7 @@ namespace Neptune.Core.Engine.Resources
             _fragmentShader.Dispose();
         }
 
-        public string Hash => _hash;
+        public long Hash => _hash;
         
         private Veldrid.Shader LoadShader(ResourceFactory factory, string set, ShaderStages stage, string entryPoint)
         {
@@ -77,13 +77,13 @@ namespace Neptune.Core.Engine.Resources
                 assetBytes = r.GetBytes();
             }
 
-            var hash = "";
+            var hash = 0l;
             using (var sha = SHA256Managed.Create())
             {
                 using (var stream = new MemoryStream(assetBytes))
                 {
                     var rawHash = sha.ComputeHash(stream);
-                    hash = BitConverter.ToString(rawHash).Replace("-", "").ToLowerInvariant();
+                    hash = BitConverter.ToInt64(rawHash, 0);
                 }
             }
             

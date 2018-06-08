@@ -13,14 +13,14 @@ namespace Neptune.Core.Engine.Resources
 
         private Vector2 _size;
         private TextureView _textureView;
-        private string _hash;
+        private long _hash;
 
         public Vector2 Size => _size;
         public Veldrid.Texture DeviceTexture => _deviceTexture;
-        public string Hash => _hash;
+        public long Hash => _hash;
         public TextureView TextureView => _textureView;
         
-        public Texture(ImageTexture imageTexture, Veldrid.Texture deviceTexture, TextureView textureView, string hash)
+        public Texture(ImageTexture imageTexture, Veldrid.Texture deviceTexture, TextureView textureView, long hash)
         {
             _imageTexture = imageTexture;
             _deviceTexture = deviceTexture;
@@ -45,13 +45,13 @@ namespace Neptune.Core.Engine.Resources
                 var texture = new ImageTexture(path);
                 var deviceTexture = texture.CreateDeviceTexture(graphicsDevice, resourceFactory);
                 var textureView = resourceFactory.CreateTextureView(deviceTexture);
-                var hash = "";
+                var hash = 0l;
                 using (var sha = SHA256Managed.Create())
                 {
                     using (var stream = File.OpenRead(path))
                     {
                         var rawHash = sha.ComputeHash(stream);
-                        hash = BitConverter.ToString(rawHash).Replace("-", "").ToLowerInvariant();
+                        hash = BitConverter.ToInt64(rawHash, 0);
                     }
                 }
 

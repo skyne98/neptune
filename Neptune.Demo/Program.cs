@@ -22,7 +22,7 @@ namespace Neptune.Demo
         {
             var createInfo = new EngineWindowCreateInfo()
             {
-                PreferredBackend = GraphicsBackend.Vulkan
+                PreferredBackend = GraphicsBackend.OpenGL
             };
             var myWindow = new MyWindow(createInfo);
             myWindow.Run();

@@ -47,11 +47,11 @@ namespace Neptune.Core.Engine.Primitives
         {
             if (_dirty == false)
             {
-                _dirty = true;
                 if (_spritePrimitiveRenderer != null)
                 {
                     _spritePrimitiveRenderer.SetGroupDirty(_texture.Get().Hash);
                 }
+                _dirty = true;
             }
         }
         

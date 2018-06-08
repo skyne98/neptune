@@ -88,7 +88,10 @@ namespace Neptune.Core.Engine.Renderers
 
             if (_frameTimeAverager.CurrentAverageFramesPerSecond > _fpsCap)
             {
-                Thread.Sleep(Math.Max(0, (1000 / (int)_fpsCap) - (int)_frameTimeAverager.CurrentAverageFrameTimeMilliseconds));
+                if (_frameTimeAverager.CurrentAverageFrameTimeMilliseconds > 16)
+                {
+                    Thread.Sleep(Math.Max(0, (1000 / (int)_fpsCap) - (int)_frameTimeAverager.CurrentAverageFrameTimeMilliseconds));
+                }
             }
 
             _commandList.Begin();

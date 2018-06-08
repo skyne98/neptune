@@ -107,7 +107,6 @@ namespace Neptune.Core.Engine.Renderers
             VertexLayoutDescription instanceVertexLayout = new VertexLayoutDescription(
                 new VertexElementDescription[]
                 {
-                    new VertexElementDescription("ZIndex", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float1),
                     new VertexElementDescription("TransformDataIndex", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Int1), 
                     new VertexElementDescription("Color", VertexElementSemantic.Color, VertexElementFormat.Float4) 
                 }
@@ -262,7 +261,6 @@ namespace Neptune.Core.Engine.Renderers
                     var newInfos = _groupSprites[groupSpritesKey].Select(s =>
                     {
                         var info =  new InstanceInfo(
-                            s.ZIndex,
                             index,
                             s.Color
                         );

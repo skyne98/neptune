@@ -60,11 +60,11 @@ namespace Neptune.Demo
                         var toAdd = Math.Max(0, doges - sprites.Count);
                         Console.WriteLine($"Adding {toAdd}");
                         var texture = ResourceManager.GetTexture("Bunny");
+                        var random = new Random();
 
                         for (int i = 0; i < toAdd; i++)
                         {
                             // Sprites
-                            var random = new Random();
                             var next = random.NextDouble();
                             var sprite = new SpritePrimitive(texture)
                             {

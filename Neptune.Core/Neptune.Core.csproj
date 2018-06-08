@@ -46,10 +46,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Neptune.JobSystem\Neptune.JobSystem.csproj" />
   </ItemGroup>
-  <Target Name="IncludeGeneratedShaderEmbeddedResource" AfterTargets="AssignTargetPaths" Condition="'$(ShaderOutputPath)' != ''">
+  <Target Name="EmbedGeneratedShaderContent" AfterTargets="AssignTargetPaths">
     <ItemGroup>
-      <Message Text="@(GeneratedShader)" />
-      <EmbeddedResource Include="@(GeneratedShader)">
+      <AllShaderFiles Include="$(ShaderOutputPath)\**\*" />
+      <EmbeddedResource Include="@(AllShaderFiles)">
         <LogicalName>%(FileName)%(Extension)</LogicalName>
       </EmbeddedResource>
     </ItemGroup>

@@ -1,18 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <IsWindows Condition="'$(OS)' == 'Windows_NT'">true</IsWindows>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(MSBuildRuntimeType)' == 'Core'">
+    <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
+    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
+  </PropertyGroup>
+  <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Neptune.JobSystem</PackageId>
   </PropertyGroup>
   <Target Name="BuildRust" BeforeTargets="BeforeBuild">
     <Exec Command="cargo build --release" WorkingDirectory="./Rust" ContinueOnError="false" />
   </Target>
-  <ItemGroup>
+  <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
     <Content Include="./Rust/target/release/parallel.dll">
       <PackagePath>runtimes/win-x64/native</PackagePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Link>parallel.dll</Link>
       <Pack>true</Pack>
     </Content>
+  </ItemGroup>
+  <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
     <Content Include="./Rust/target/release/libparallel.so">
       <PackagePath>runtimes/linux-x64/native</PackagePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

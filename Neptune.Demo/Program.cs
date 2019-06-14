@@ -44,7 +44,6 @@ namespace Neptune.Demo
         public unsafe override void Loop(EngineLoopInfo loopInfo)
         {
             var style = ImGui.GetStyle();
-            style.SetColor(ColorTarget.FrameBg, new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
             ImGui.StyleColorsClassic(style);
 
             if (ImGui.BeginMainMenuBar())

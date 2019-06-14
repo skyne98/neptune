@@ -3,12 +3,13 @@ using System.IO;
 using System.Numerics;
 using System.Security.Cryptography;
 using Veldrid;
+using Veldrid.ImageSharp;
 
 namespace Neptune.Core.Engine.Resources
 {
-    public class Texture: IResource
+    public class Texture : IResource
     {
-        private readonly ImageTexture _imageTexture;
+        private readonly ImageSharpTexture _imageTexture;
         private readonly Veldrid.Texture _deviceTexture;
 
         private Vector2 _size;
@@ -19,14 +20,14 @@ namespace Neptune.Core.Engine.Resources
         public Veldrid.Texture DeviceTexture => _deviceTexture;
         public long Hash => _hash;
         public TextureView TextureView => _textureView;
-        
-        public Texture(ImageTexture imageTexture, Veldrid.Texture deviceTexture, TextureView textureView, long hash)
+
+        public Texture(ImageSharpTexture imageTexture, Veldrid.Texture deviceTexture, TextureView textureView, long hash)
         {
             _imageTexture = imageTexture;
             _deviceTexture = deviceTexture;
             _textureView = textureView;
             _hash = hash;
-            
+
             _size = new Vector2(_imageTexture.Width, _imageTexture.Height);
         }
 
@@ -42,7 +43,7 @@ namespace Neptune.Core.Engine.Resources
             Console.WriteLine($"Loading texture at {path}");
             if (File.Exists(path))
             {
-                var texture = new ImageTexture(path);
+                var texture = new ImageSharpTexture(path);
                 var deviceTexture = texture.CreateDeviceTexture(graphicsDevice, resourceFactory);
                 var textureView = resourceFactory.CreateTextureView(deviceTexture);
                 var hash = 0l;
@@ -65,7 +66,6 @@ namespace Neptune.Core.Engine.Resources
 
         public void Dispose()
         {
-            _imageTexture?.Dispose();
             _deviceTexture?.Dispose();
             _textureView?.Dispose();
         }

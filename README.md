@@ -21,4 +21,4 @@ Some the main tasks right now are:
 * Improve rendering API to be somewhere as accessible as PIXI JS APIs
 
 ### How can I motivate you to work on this?
-You can always support me on [![](https://img.shields.io/badge/patreon-donate-green.svg)](https://www.patreon.com/loopenfox) to give me some motivation to work on this project in my free time after work (writing proprietary software).
+You can always support me on [![](https://img.shields.io/badge/patreon-donate-green.svg)](https://www.patreon.com/raspberryfox) to give me some motivation to work on this project in my free time after work (writing proprietary software).
